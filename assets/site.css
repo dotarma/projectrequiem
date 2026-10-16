@@ -22,3 +22,6 @@ dialog{width:min(540px,calc(100% - 32px));padding:29px;border:1px solid var(--ha
 @media(max-width:380px){.nav-shell{gap:8px;padding-inline:14px}.nav-shell .wordmark{white-space:normal;max-width:120px;font-size:13px;line-height:1.15;gap:6px}.nav-shell .brand-mark{width:20px;height:20px;flex-shrink:0}.nav-actions{gap:6px}.hero-eyebrow{font-size:8px}.preview-footer{font-size:8px}}
 
 .preview-toolbar-label,.slider-scale,.preview-footer,.terminal-footer{color:var(--muted)}.nav-download{min-height:44px}
+
+/* JS interpolates compositor transforms; content never depends on motion. */
+.mini-bar i{width:100%;transform-origin:left center;transition:none}

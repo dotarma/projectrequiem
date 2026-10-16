@@ -1,4 +1,7 @@
 import { COPY, MODES, FAQS } from './content.js';
+import { createMotion } from './motion.js';
+
+const motion = createMotion();
 
 const ZIP = 'Project-Requiem-0.3.0-pre.5.zip';
 const SHA = '1c854d699abb073cb07a803735fea1fb168e78fab8e64cad54da7c37ac91618c';
@@ -35,12 +38,13 @@ function updateStress() {
     suffix.textContent = unit;
     output.append(suffix);
   }
-  $('#bar-heal').style.width = `${values.heal[0]}%`;
-  $('#bar-damage').style.width = `${values.damage[0] / 2 * 100}%`;
-  $('#bar-reload').style.width = `${values.reload[0] / 2 * 100}%`;
-  $('#bar-jam').style.width = `${values.jam[0] / 20 * 100}%`;
+  motion.setMetric('heal', values.heal[0] / 100);
+  motion.setMetric('damage', values.damage[0] / 2);
+  motion.setMetric('reload', values.reload[0] / 2);
+  motion.setMetric('jam', values.jam[0] / 20);
   $('#panic-label').textContent = COPY[language][panic ? 'panic_on' : 'panic_off'];
   $('.panic-state').classList.toggle('active', panic);
+  motion.setPanic(panic);
   $('#stress-slider').setAttribute('aria-label', COPY[language].stress_label);
 }
 
@@ -137,7 +141,12 @@ $$('[data-download]').forEach((link) => link.href = `./downloads/${ZIP}`);
 $('#stress-slider').addEventListener('input', updateStress);
 $$('.lang-button').forEach((button) => button.addEventListener('click', () => applyLanguage(button.dataset.lang)));
 $$('.mode-tab').forEach((button, index, tabs) => {
-  button.addEventListener('click', () => { mode = button.dataset.mode; renderMode(); });
+  button.addEventListener('click', () => {
+    if (mode === button.dataset.mode) return;
+    mode = button.dataset.mode;
+    renderMode();
+    motion.modeChanged();
+  });
   button.addEventListener('keydown', (event) => {
     let target;
     if (event.key === 'ArrowRight' || event.key === 'ArrowDown') target = (index + 1) % tabs.length;
@@ -149,12 +158,16 @@ $$('.mode-tab').forEach((button, index, tabs) => {
       mode = tabs[target].dataset.mode;
       renderMode();
       tabs[target].focus();
+      motion.modeChanged();
     }
   });
 });
 $('#copy-command').addEventListener('click', () => copyText(COMMAND, $('#copy-command'), 'copy_command'));
 $('#copy-checksum').addEventListener('click', () => copyText(SHA, $('#copy-checksum'), 'copy_checksum'));
-$('#show-checksum').addEventListener('click', () => $('#checksum-dialog').showModal());
+$('#show-checksum').addEventListener('click', () => {
+  $('#checksum-dialog').showModal();
+  motion.dialogOpened();
+});
 $('#close-checksum').addEventListener('click', () => $('#checksum-dialog').close());
 $('#checksum-dialog').addEventListener('click', (event) => {
   if (event.target === $('#checksum-dialog')) {
@@ -166,6 +179,7 @@ $('.menu-toggle').addEventListener('click', () => {
   const open = $('.menu-toggle').getAttribute('aria-expanded') !== 'true';
   $('.menu-toggle').setAttribute('aria-expanded', String(open));
   $('#mobile-menu').hidden = !open;
+  if (open) motion.menuOpened();
 });
 $$('#mobile-menu a').forEach((link) => link.addEventListener('click', () => {
   $('.menu-toggle').setAttribute('aria-expanded', 'false');
@@ -178,3 +192,4 @@ document.addEventListener('keydown', (event) => {
   }
 });
 applyLanguage(language);
+motion.start();
