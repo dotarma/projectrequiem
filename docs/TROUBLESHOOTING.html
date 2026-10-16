@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fafafa">
+  <meta name="description" content="Troubleshooting and compatibility — Project Requiem documentation.">
+  <title>Troubleshooting and compatibility — Project Requiem</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="nav-shell">
+    <a class="wordmark" href="../index.html">Project Requiem</a>
+    <nav class="nav-actions" aria-label="Documentation language">
+      <a class="text-link" href="README.html" lang="en" aria-current="true">EN</a>
+      <a class="text-link" href="vi/README.html" lang="vi">Tiếng Việt</a>
+      <a class="button secondary" href="../index.html">Back to site ↗</a>
+    </nav>
+  </div></header>
+  <main class="documentation" id="main">
+    <p class="eyebrow">PROJECT REQUIEM / DOCUMENTATION</p>
+    <nav aria-label="Documentation navigation"><p><a href="README.html">Overview</a> &nbsp;·&nbsp; <a href="FEATURES.html">Features</a> &nbsp;·&nbsp; <a href="INSTALLATION.html">Installation</a> &nbsp;·&nbsp; <a href="CONFIGURATION.html">Configuration</a> &nbsp;·&nbsp; <a href="TROUBLESHOOTING.html">Troubleshooting</a> &nbsp;·&nbsp; <a href="TESTING.html">Testing</a> &nbsp;·&nbsp; <a href="SOURCES.html">Sources</a> &nbsp;·&nbsp; <a href="CHANGELOG.html">Changelog</a> &nbsp;·&nbsp; <a href="LICENSE.html">Licenses</a></p></nav>
+    <article><h1 id="troubleshooting-and-compatibility">Troubleshooting and compatibility</h1>
+<p>Use the complete <strong>0.3.0-pre.5</strong> package. Fully restart after upgrading so
+the old Lua state and any old light-control latch are released. Automated
+checks do not replace native gameplay verification; see <a href="TESTING.html">testing</a>.</p>
+<h2 id="mod-menu-is-missing">Mod menu is missing</h2>
+<ol>
+<li>Confirm the RE9-compatible REFramework <code>dinput8.dll</code> is beside <code>re9.exe</code>.</li>
+<li>Check <code>reframework/autorun/project_requiem.lua</code> and all nine modules in
+<code>reframework/autorun/project_requiem/</code>.</li>
+<li>Restart the game and inspect <code>re2_framework_log.txt</code> for Lua errors.</li>
+</ol>
+<p>Do not run <code>khuc_cau_hon.lua</code> or <code>ultradead.lua</code> beside the new entrypoint.
+The installer checks ownership, backs up recognized files and migrates
+those previous namespaces.</p>
+<h2 id="language-will-not-switch">Language will not switch</h2>
+<p>Open <strong>Insert &gt; Script Generated UI &gt; Project Requiem &gt; Language</strong> and
+choose <strong>English</strong> or <strong>Tiếng Việt</strong>. The preference saves immediately and
+survives script reload without resetting the run. It affects only the mod.
+In JSON, supported values are <code>en</code> and <code>vi</code>; others fall back to English.</p>
+<p>If Vietnamese leaves English selected, upgrade to pre.5. Earlier builds
+used zero-based indices for a combo returning Lua table keys. The corrected
+keys are English = 1 and Vietnamese = 2. Switching in both directions,
+persistence and reload pass automated checks; native UI verification is
+pending.</p>
+<p>For missing/boxed Vietnamese characters, check the <code>ui_font</code> report row and
+<code>reframework/fonts/project_requiem/NotoSans-Regular.ttf</code>. Reinstall the full
+package to restore the font. Its codepoint coverage is checked, but native
+visual rendering remains a separate verification step.</p>
+<h2 id="empty-stamina-still-allows-running">Empty stamina still allows running</h2>
+<p>At zero, exhaustion should block sprint until at least <strong>25 stamina</strong>.
+Recovery begins after <strong>2 live seconds</strong>: <strong>12/second</strong> at rest or
+<strong>6/second</strong> while moving. Pause/loading does not count.</p>
+<p>Pre.4 forces walk after native input and scales the active locomotion layer.
+The old translation hook recorded events without visibly stopping sprint.
+Inspect these report fields/events:</p>
+<ul>
+<li><code>stamina</code>, <code>exhausted</code> and <code>stamina_after_input</code>.</li>
+<li><code>stamina_walk_forced</code> and <code>stamina_motion_scaled</code>.</li>
+<li><code>stamina_motion</code> base/applied speed values.</li>
+</ul>
+<p>Terrain actions, riding, damage and reloads are excluded. FPS/TPS, stairs,
+crouching and both characters still need native verification. Playback
+scaling is not proof of the resulting spatial movement speed.</p>
+<h2 id="one-life-blocks-continue-or-load">One Life blocks Continue or Load</h2>
+<p>In Strict mode, death intentionally locks the attempt. Choose native
+<strong>New Game</strong> from the title screen. Script reset, restart and general mod
+disable do not revive it; native save files remain intact.</p>
+<p>While alive, only successful manual saves made after arming One Life in the
+current attempt are trusted. Existing slots are not adopted. Autosaves,
+earlier-attempt and unresolved slots are denied; resolved system/profile
+loads remain available.</p>
+<p>Inspect <code>one_life</code>, <code>one_life_dead</code>, <code>life_attempt</code>, <code>life_slots</code>,
+<code>one_life_load_*</code>, <code>one_life_new_game</code> and <code>one_life_slot_identity</code>. Failed
+JSON writes are logged and can compromise persistence. Movement/death,
+New Game, native slot ABI and all checkpoint paths still need direct
+validation; successful mocked hooks do not prove complete coverage.</p>
+<h2 id="one-life-easy-actions-fail">One Life Easy actions fail</h2>
+<p>Activate Easy in a calm live area. Close Esc pause before F6/F7 or menu
+actions. <strong>F6</strong> is the mod's custom Continue; native Continue/Load still
+obeys slot restrictions. For <strong>F7</strong>, return within <strong>2 m</strong> of the marked
+cache with the same character/area identity. A full inventory leaves
+unclaimed entries in place.</p>
+<p>Inspect these report fields and events:</p>
+<ul>
+<li><code>life_mode</code>, <code>easy_pending</code>, <code>easy_deaths</code> and <code>death_drop_count</code>.</li>
+<li><code>easy_error</code>, <code>easy_preflight</code>, <code>easy_force_death</code> and <code>easy_*</code> events.</li>
+</ul>
+<p>Unsupported item data refuses activation/transfer. Scripted deaths can
+bypass the guards and end the attempt; New Game remains available. After
+Continue, make a successful manual save before quitting for a valid resume
+slot. The cache ledger does not preserve the entire live world.</p>
+<p>Keep failed transactions and their ledger intact: deleting them discards
+recorded recovery data. No complete Easy recovery cycle has native
+verification. See <a href="FEATURES.html#one-life-easy">Easy limits</a>.</p>
+<h2 id="stress-does-not-rise-near-a-licker">Stress does not rise near a Licker</h2>
+<p>Check <code>active</code> and <code>inactive_reason</code>, then the <code>threat_scan</code> fields:</p>
+<ul>
+<li>Source-list counts, <code>alive</code>, <code>near</code>, <code>dormant_near</code> and <code>unpositioned</code>.</li>
+<li><code>nearest_kind</code> and <code>nearest_distance</code>.</li>
+</ul>
+<p>A recognized living, present threat must be within <strong>12 m</strong>. The scanner
+includes present dormant/suspended enemies and prefers rendered transforms.
+Missing native context/position data can still prevent identification.</p>
+<p>Timers require an initialized player and recognized live, focused gameplay.
+Menus, loading, death and unfocus can stop them. A configured source gain of
+zero also prevents that source's increase. The darkness gain requires a
+nearby threat and recognized player light off, not low ambient brightness.</p>
+<h2 id="panic-or-accuracy-differs-between-characters">Panic or accuracy differs between characters</h2>
+<p>Panic begins at Stress <strong>100</strong> and clears at <strong>90</strong>. Pre.4 adds Grace/Leon
+kind-ID fallback, bounded camera sway, stronger overlay and final projectile
+request/rotation deviation. The old cached target could be overwritten.</p>
+<p>Inspect these report fields/events:</p>
+<ul>
+<li><code>player_kind</code>, <code>panic_eligible</code> and <code>panic_camera_sway</code>.</li>
+<li><code>panic_request_spread</code>, <code>panic_request_direction</code>, <code>panic_shell_rotation</code>
+and <code>shell_request_fields</code>.</li>
+</ul>
+<p>Native sick/fear hooks are supplementary and had zero calls in the collected
+report. Grace's exact native match to Leon's postprocess, every weapon's
+trajectory and special scripted scenes remain unverified. A counter alone
+does not prove a visible effect or changed trajectory.</p>
+<h2 id="saves-are-blocked">Saves are blocked</h2>
+<p>Gameplay autosaves are intentionally denied while the mod is enabled.
+Manual saving can fail because of quota, cooldown, missing finite ink,
+spoiled ink or bypassing the typewriter flow.</p>
+<ul>
+<li>Spoiled ink consumes one ribbon and prevents refund.</li>
+<li>Quota/cooldown failures retain the native refund path.</li>
+<li>Only successful manual writes increment quota/start the cooldown.</li>
+<li>Spoilage applies only where native saving already needs ribbons.</li>
+<li>Profile/settings writes remain allowed; existing saves are not deleted.</li>
+</ul>
+<p>Some chapter/checkpoint logic may retry or report failure when autosaves are
+denied. Full-campaign behavior is unverified. Loading an older save does not
+refund quota because the ledger belongs to <code>run_id</code>. Use a distinct ID for
+a separate campaign.</p>
+<h2 id="jams-are-rare-or-do-not-clear">Jams are rare or do not clear</h2>
+<p>Cold, slow shots should not jam. Heat must reach <strong>0.40</strong>, then a probability
+roll decides each registered shot. Use Reload/<strong>R</strong> and wait <strong>3-4.5 live
+seconds</strong>; clearing also works with a full magazine. Changing weapons does
+not clear a session jam. Resetting Lua or losing the player context can.</p>
+<h2 id="recharged-lights-remain-off">Recharged lights remain off</h2>
+<p>After depletion, a light remains locked until <strong>15%</strong> recharge:</p>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Unlock energy</th>
+<th>Default time from empty</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flashlight / BodyLight</td>
+<td>27 seconds</td>
+<td>180 live seconds</td>
+</tr>
+<tr>
+<td>Lighter</td>
+<td>13.5 seconds</td>
+<td>90 live seconds</td>
+</tr>
+</tbody>
+</table>
+<p>Pause/loading/unfocus does not count. A positive energy value below the
+threshold is still locked. The HUD shows energy versus threshold and a
+ready notification.</p>
+<p>Pre.4 avoids external off requests and zero intensity that could keep a
+recovered light off. Fully restart after upgrading to clear an older
+runtime's possible external latch, then use the normal light toggle.
+Inspect <code>light_blocked</code>, <code>light_control</code>, <code>light_render_writes</code> and
+<code>light_recharged</code>. Unknown emitters or changed APIs can still cause a visual
+mismatch.</p>
+<h2 id="pickups-do-not-match-the-expected-scarcity">Pickups do not match the expected scarcity</h2>
+<p>Scarcity makes stable decisions for recognized world IDs, not inventory
+items. Percentages describe many locations, not each room. Reloading an
+area may be needed for spawn visibility changes. Unknown IDs, missing
+stable location identity and key/story items are retained.</p>
+<h2 id="export-a-runtime-report">Export a runtime report</h2>
+<p>Choose <strong>Export compatibility / runtime report</strong> in the mod menu. Reports
+also export after 120 frames and every 1,800 frames. Relevant files are:</p>
+<ul>
+<li><code>reframework/data/project_requiem/status.json</code>.</li>
+<li><code>re2_framework_log.txt</code>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Report value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>installed</code></td>
+<td>Hook attached</td>
+</tr>
+<tr>
+<td><code>calls</code></td>
+<td>Game called the hooked method</td>
+</tr>
+<tr>
+<td><code>events</code></td>
+<td>A guard/rule path applied</td>
+</tr>
+<tr>
+<td><code>missing</code></td>
+<td>Expected signature unavailable</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Signature/callback problem</td>
+</tr>
+</tbody>
+</table>
+<p>A nonzero counter does not prove a visible effect. Reports are not uploaded
+automatically.</p>
+<h2 id="conflicting-mods-and-game-updates">Conflicting mods and game updates</h2>
+<p>Avoid combining other difficulty, infinite ammo/durability/item, no-reload,
+rapid-fire and save-flow mods. External trainers may bypass guarded paths.
+Preserving unrelated files during installation is not compatibility
+certification.</p>
+<p>The captured API baseline is <strong>TDB83</strong>. Game/REFramework updates may change
+signatures or inline methods. The mod uses reflection, not fixed memory
+offsets. See <a href="TESTING.html">verification and remaining gaps</a>.</p>
+</article>
+    <hr>
+    <p><a href="../index.html">← Back to Project Requiem</a></p>
+  </main>
+</body>
+</html>

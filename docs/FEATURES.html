@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fafafa">
+  <meta name="description" content="Features and default balance — Project Requiem documentation.">
+  <title>Features and default balance — Project Requiem</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="nav-shell">
+    <a class="wordmark" href="../index.html">Project Requiem</a>
+    <nav class="nav-actions" aria-label="Documentation language">
+      <a class="text-link" href="README.html" lang="en" aria-current="true">EN</a>
+      <a class="text-link" href="vi/README.html" lang="vi">Tiếng Việt</a>
+      <a class="button secondary" href="../index.html">Back to site ↗</a>
+    </nav>
+  </div></header>
+  <main class="documentation" id="main">
+    <p class="eyebrow">PROJECT REQUIEM / DOCUMENTATION</p>
+    <nav aria-label="Documentation navigation"><p><a href="README.html">Overview</a> &nbsp;·&nbsp; <a href="FEATURES.html">Features</a> &nbsp;·&nbsp; <a href="INSTALLATION.html">Installation</a> &nbsp;·&nbsp; <a href="CONFIGURATION.html">Configuration</a> &nbsp;·&nbsp; <a href="TROUBLESHOOTING.html">Troubleshooting</a> &nbsp;·&nbsp; <a href="TESTING.html">Testing</a> &nbsp;·&nbsp; <a href="SOURCES.html">Sources</a> &nbsp;·&nbsp; <a href="CHANGELOG.html">Changelog</a> &nbsp;·&nbsp; <a href="LICENSE.html">Licenses</a></p></nav>
+    <article><h1 id="features-and-default-balance">Features and default balance</h1>
+<p>Project Requiem <strong>0.3.0-pre.5</strong> adds a hardcore survival preset to Resident
+Evil Requiem PC through REFramework. English is the default; Vietnamese is
+selectable. This document describes the shipped values and fixed rules.
+The release remains experimental. See <a href="TESTING.html">verification</a> for the
+difference between automated checks and observed behavior in the game.</p>
+<h2 id="combat-and-finite-bonuses">Combat and finite bonuses</h2>
+<table>
+<thead>
+<tr>
+<th>Mechanic</th>
+<th>Default factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enemy effective toughness</td>
+<td>1.80</td>
+</tr>
+<tr>
+<td>Incoming player damage</td>
+<td>1.45</td>
+</tr>
+<tr>
+<td>Player weapon damage</td>
+<td>0.70</td>
+</tr>
+<tr>
+<td>Enemy movement speed</td>
+<td>1.10</td>
+</tr>
+<tr>
+<td>Enemy stagger/wince</td>
+<td>0.65</td>
+</tr>
+<tr>
+<td>Minimum firing interval</td>
+<td>1.35</td>
+</tr>
+<tr>
+<td>Reload animation duration</td>
+<td>1.50</td>
+</tr>
+</tbody>
+</table>
+<p>Toughness divides damage into registered enemy HitPoint objects. Combined
+with weapon damage, enemies receive about <strong>38.9%</strong> of native damage before
+integer rounding. It does not rewrite maximum HP or boss phase thresholds.
+Melee and environmental damage using the same HP function are also affected.
+The mod does not add AI or enemy spawns.</p>
+<p>Speed and stagger use experimental rank getters that may be inlined or
+bypassed. A call counter does not prove a visible effect on every enemy.
+Firing intervals use a 0.25-second base if native weapon data is unreadable.
+Reload scaling preserves native animation events and avoids compounding
+the factor each frame.</p>
+<p>While enabled, the mod forces off built-in infinite gun/rocket ammunition
+and the shared infinite axe/knife durability bonus. It also clears equipped
+loader panels' applicable infinite/zero-cost flags. Getter overrides and
+boolean-field enforcement are combined. External trainers or conflicting
+mods can bypass these paths.</p>
+<h2 id="healing-and-world-scarcity">Healing and world scarcity</h2>
+<table>
+<thead>
+<tr>
+<th>Resource rule</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recognized world healing pickups retained</td>
+<td>About 40%</td>
+</tr>
+<tr>
+<td>Item healing retained at Stress 0</td>
+<td>45%</td>
+</tr>
+<tr>
+<td>Item healing retained at Stress 100</td>
+<td>33.75%</td>
+</tr>
+<tr>
+<td>Recognized world ink ribbons retained</td>
+<td>About 45%</td>
+</tr>
+</tbody>
+</table>
+<p>Keep/hide decisions are stable for the same seed, run ID, item and identified
+location. Revisiting does not reroll them. These percentages describe many
+locations, not a guaranteed fraction in each room.</p>
+<p>Scarcity applies to recognized world pickups, not inventory transfers,
+crafting, shops or inventory restoration. Unknown IDs, items without stable
+location identity, and key/story items remain available. Nested recovery
+calls are scaled once; healing modifiers do not lower maximum HP.</p>
+<h2 id="stress-meter-and-nearby-threats">Stress Meter and nearby threats</h2>
+<p>Stress ranges from <strong>0 to 100</strong> and worsens survival and weapon handling.</p>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Default gain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Living, present enemy within 12 m</td>
+<td>1.8/second</td>
+</tr>
+<tr>
+<td>Player below 30% HP</td>
+<td>0.9/second</td>
+</tr>
+<tr>
+<td>Nearby threat with recognized player light off</td>
+<td>Another 0.35/second</td>
+</tr>
+<tr>
+<td>Taking damage</td>
+<td>8 plus HP-loss contribution</td>
+</tr>
+<tr>
+<td>Registered physical shot</td>
+<td>0.7</td>
+</tr>
+<tr>
+<td>No continuing source</td>
+<td>Recover 0.65/second</td>
+</tr>
+</tbody>
+</table>
+<p>Damage adds up to another 15 Stress according to the fraction of maximum HP
+lost. Continuing source types add together; multiple nearby enemies do not
+multiply the proximity gain. The light condition tests whether the
+recognized light is on; it does not measure environmental darkness.</p>
+<p>Threat scans combine and deduplicate enemy/context lists, preferring current
+rendered transforms. A living, physically present suspended Licker can count
+before waking or attacking. Corpses, inactive objects, despawned contexts
+without an object and unreadable positions are excluded. Scans start with a
+valid player and repeat about every 0.25 seconds. The radius is fixed at 12 m.</p>
+<table>
+<thead>
+<tr>
+<th>Effect</th>
+<th>Stress 0</th>
+<th>Stress 100</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Incoming damage factor</td>
+<td>1.45</td>
+<td>1.6675</td>
+</tr>
+<tr>
+<td>Item healing retained</td>
+<td>45%</td>
+<td>33.75%</td>
+</tr>
+<tr>
+<td>Minimum firing-interval factor</td>
+<td>1.35</td>
+<td>1.755</td>
+</tr>
+<tr>
+<td>Reload-duration factor</td>
+<td>1.50</td>
+<td>1.875</td>
+</tr>
+<tr>
+<td>Reticle recovery multiplier</td>
+<td>1.00</td>
+<td>0.45</td>
+</tr>
+<tr>
+<td>Jam chance at maximum heat</td>
+<td>8%/shot</td>
+<td>16%/shot</td>
+</tr>
+<tr>
+<td>Jam-clearing duration</td>
+<td>3 seconds</td>
+<td>4.5 seconds</td>
+</tr>
+</tbody>
+</table>
+<p>Values interpolate continuously. HUD colors change at Stress 45 and 75.
+The reticle-recovery method may be unused/inlined; panic has additional
+enforcement paths.</p>
+<h2 id="panic-at-stress-100">Panic at Stress 100</h2>
+<p>Panic starts at <strong>100</strong> and lasts until Stress reaches <strong>90 or less</strong>. It
+applies to the recognized active Grace or Leon character. Kind IDs provide
+a fallback when native character flags are unavailable.</p>
+<ul>
+<li>Reticle fitting is cleared after native updates, with its cached fit point
+driven to the weapon's minimum.</li>
+<li>A compatible reflected projectile direction receives a <strong>2.5-degree</strong>
+deviation cone while preserving its length. Otherwise the final shell
+rotation receives roughly <strong>2.5 degrees</strong> of pitch/yaw deviation. Time and
+shot count vary direction; a creation scope avoids applying both paths to
+one shot. Unlike the old cached target, these paths do not depend on a
+target that shell creation can overwrite.</li>
+<li>Render-camera sway is bounded at <strong>0.6 degrees pitch, 0.7 degrees yaw and
+1.5 degrees roll</strong>. The original rotation is restored before gameplay
+simulation, on recovery and on disable/reset. It does not accumulate drift
+or replace a later engine rotation.</li>
+<li>Slow haze and breathing tunnel vision remain visible when the HUD is
+hidden. They are not a blur filter or an exact copy of Leon's postprocess.</li>
+<li>Supplementary fear/sick hooks target only the current player. Sick-state
+enforcement requires that character's valid configuration; Leon's
+animations and configuration are not transplanted onto Grace.</li>
+</ul>
+<p>Panic persists with Stress, suspends during pause/inactive gameplay and
+releases on recovery or mod disable. Aim updates do not consume jam/ink RNG.
+Every weapon's actual trajectory and character-specific native visuals
+still need native verification.</p>
+<h2 id="heat-and-weapon-jams">Heat and weapon jams</h2>
+<p>Each registered shot adds <strong>0.18 heat</strong>, capped at 1. Heat cools by
+<strong>0.14/second</strong> of live gameplay. No jam roll occurs below <strong>0.40 heat</strong>.
+At or above that threshold:</p>
+<pre><code class="language-text">jam chance = 0.16 * heat * (0.5 + 0.5 * Stress / 100)
+</code></pre>
+<p>One roll follows each registered shot. Holding input or per-frame updates
+cannot reroll it. A jam gates fire requests, native fire eligibility,
+projectile creation and further ammunition consumption. Deferred callbacks
+do not count phantom shots while jammed.</p>
+<p>Use the game's Reload action, or <strong>R</strong> as a keyboard fallback, to clear the
+jam. Clearing takes <strong>3-4.5 live seconds</strong>, even with a full magazine, and
+leaves heat at 0.20. Switching weapons does not clear a jam.</p>
+<p>Heat/jams belong to individual player/weapon objects for the Lua session.
+Resetting scripts, restarting or loading that discards the player context
+can clear them. Total shots/jams persist; individual hot/jammed objects do
+not.</p>
+<h2 id="stamina-and-exhaustion">Stamina and exhaustion</h2>
+<p>The recognized active Grace or Leon player has a <strong>0-100 Stamina Meter</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Capacity and starting stamina</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Sprint drain</td>
+<td>16/second</td>
+</tr>
+<tr>
+<td>Uninterrupted sprint from full</td>
+<td>6.25 seconds</td>
+</tr>
+<tr>
+<td>Recovery delay after sprint</td>
+<td>2 live seconds</td>
+</tr>
+<tr>
+<td>Resting recovery</td>
+<td>12/second</td>
+</tr>
+<tr>
+<td>Moving recovery</td>
+<td>6/second</td>
+</tr>
+<tr>
+<td>Exhausted walking playback</td>
+<td>60%</td>
+</tr>
+<tr>
+<td>Exhausted run-transition playback</td>
+<td>40%</td>
+</tr>
+<tr>
+<td>Exhaustion release</td>
+<td>25 stamina</td>
+</tr>
+</tbody>
+</table>
+<p>Zero stamina latches exhaustion and blocks sprint. Holding sprint while
+exhausted does not prevent recovery; normal walking costs no stamina.
+After native input, the mod cancels sprint and requests walking. It also
+scales the active locomotion layer without compounding, then restores its
+original speed on release.</p>
+<p>Terrain actions, damage reactions, riding and reloads are excluded. Movement
+speed is restored before the separate reload modifier applies. Global time
+and camera input are unchanged. Stamina, exhaustion and recovery delay
+persist using the same live-time guards as Stress and lights.</p>
+<p>FPS/TPS, stairs, crouching, both characters and engine paths bypassing the
+identified movement/input methods still require native validation. Playback
+factors are not a measurement of actual native movement velocity.</p>
+<h2 id="one-life-strict">One Life (Strict)</h2>
+<p><strong>Enable One Life</strong> is optional and <strong>off by default</strong>. It can be disabled
+while alive. Death permanently locks the attempt. Enabling it in an existing
+campaign trusts no old resume slots: make a successful new manual save
+before quitting to resume that living attempt. Quota, cooldown and ink rules
+still apply.</p>
+<ul>
+<li>Native current-player death callbacks and a dead/zero-HP fallback persist
+death immediately. Enemy deaths do not count.</li>
+<li>After death, gameplay Continue/Load requests are denied, including category
+and final segment/slot overloads. While alive, only manual slots confirmed
+by successful saves in this attempt can resume. Unknown slots, autosaves
+and earlier attempts' slots are denied. Resolved system/profile loads are
+allowed.</li>
+<li>The run-ended notice survives hidden HUD, general mod disable, script reset
+and restart. General disable does not bypass an armed One Life attempt.</li>
+<li>If an in-memory checkpoint respawns the player, the mod requests native
+game over and guards recognized movement/fire paths. It does not delete
+checkpoints or replace the native game-over screen.</li>
+<li>Choose native <strong>New Game</strong> from the title screen to start another attempt.
+Actual setup resets resources, Stress, stamina, quota/cooldown, ink/RNG
+history and trusted slots, and increments the attempt. Opening/cancelling
+New Game does not reset it. The selected One Life mode carries forward.</li>
+</ul>
+<p>Native saves are not deleted or corrupted. Previous-attempt slots become
+usable only if successfully overwritten in the new attempt. Local config,
+ledger edits, backups or removing the mod can bypass rules; there is no
+leaderboard or tamper protection. Death, New Game, checkpoint paths and
+native value-type slot identity have automated coverage, not play-testing.</p>
+<h2 id="one-life-easy">One Life (Easy)</h2>
+<p>Choose <strong>Enable One Life (Easy)</strong> during live gameplay with a valid calm
+Continue point. Before activation, the update thread deploys every current
+inventory entry's native <code>ItemAmountData</code>, encodes/decodes it and compares
+the round trip. Unsupported data refuses activation. The check repeats at
+death because inventory may have changed.</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Continue action</td>
+<td>F6 or menu's Continue (Easy)</td>
+</tr>
+<tr>
+<td>Continue HP</td>
+<td>50% of current maximum; at least 1</td>
+</tr>
+<tr>
+<td>Recover action</td>
+<td>F7 or menu button</td>
+</tr>
+<tr>
+<td>Recovery range</td>
+<td>Within 2 m; same player and area</td>
+</tr>
+<tr>
+<td>Outstanding cache limit</td>
+<td>128</td>
+</tr>
+<tr>
+<td>Full inventory</td>
+<td>Unclaimed entries stay in cache</td>
+</tr>
+</tbody>
+</table>
+<p>This is <strong>soft death</strong>, not native game-over Continue. Supported paths are
+lethal <code>addDamageHitPoint</code> after incoming scaling and current-player
+<code>forceDead</code>. Before irreversible death, the mod blocks movement, firing and
+further HP damage. Continue warps to the last calm locomotion point for the
+same character/native resume-area ID and resets HP through captured APIs.</p>
+<p>The in-memory world continues without loading a save or rewinding progress.
+It can keep advancing while the defeat prompt is open. Stress, stamina,
+lights, elapsed time and save quota/cooldown keep their current values.
+Continue makes no manual-save, load or autosave request.</p>
+<p>All carried panels and archived inventory items, including keys, move to a
+persistent cache at the recorded death position. A world-space marker,
+distance label and recovery action represent the cache; no loose item
+models are spawned. Weapon data includes loaded rounds and attachments;
+attached panels are not duplicated as loose items. Item boxes, file
+inventories and separate wallet currency are outside the carried inventory
+returned by <code>GuiUtil.getInventory</code>. Later deaths retain unclaimed caches;
+completed caches are pruned.</p>
+<p>Transfers are journaled before removal. Native inventory snapshots permit
+rollback if removal or persistence fails. Pickup checks capacity, journals
+the claim and verifies the full stock increase before claiming the entry.
+Unsupported, cyclic, oversized or ambiguous interrupted data is rejected.
+If rollback fails, the transaction/error remains for reconciliation. This
+does not provide crash-proof atomicity between native memory and JSON files.</p>
+<p>Continue is <strong>session-based</strong>: the ledger cannot preserve the entire live
+world after quitting. Death revokes earlier trusted resume slots. After
+Continue, make a successful manual save under normal rules before quitting
+to resume later. Pending defeats/cache journals survive Lua resets but do
+not replace game saves. New Game resets the attempt and cache list. Pending
+defeat or outstanding loot prevents menu mode changes/disabling One Life.</p>
+<p>No complete native inventory/serialization/warp/recovery cycle has been
+observed. Scripted executions, cutscenes, falls or deaths bypassing the
+guards may cause irreversible death and end the attempt. Calm points are
+not engine checkpoints or validated navmesh locations. One-way routes,
+streaming changes, character switches and story progress may prevent cache
+recovery. Easy remains experimental.</p>
+<h2 id="flashlight-and-lighter-limits">Flashlight and lighter limits</h2>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Capacity</th>
+<th>Unlock after depletion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flashlight / BodyLight</td>
+<td>180 seconds</td>
+<td>27 energy-seconds</td>
+</tr>
+<tr>
+<td>Lighter</td>
+<td>90 seconds</td>
+<td>13.5 energy-seconds</td>
+</tr>
+</tbody>
+</table>
+<p>Separate pools recover <strong>0.15 energy-seconds per live second</strong> while off,
+up to capacity. Unlock requires <strong>15%</strong> of capacity: from empty, about
+<strong>180 live seconds</strong> for the flashlight or <strong>90</strong> for the lighter.</p>
+<p>At zero, the mod blocks use and overrides the player's emitter enable and
+visibility flags after native updates. It avoids external off requests and
+intensity changes that could hold a recovered light off. Overrides preserve
+fresh controller-written state and restore it on release/disable. Normal
+player toggling resumes afterward.</p>
+<p>While depleted, the HUD shows energy against the unlock threshold and
+announces readiness. A small positive value alone does not unlock the light.
+The recharge latch survives reset/restart. Legacy ledgers below the threshold
+migrate as recharging without resetting energy.</p>
+<p>There are no new battery/fuel items or animations, and scene lighting is
+unchanged. Automated emitter tests do not establish visual extinction for
+every native light variant.</p>
+<h2 id="live-inventory-and-item-box">Live inventory and item box</h2>
+<p>Recognized Grace/Leon inventory, item-box and inventory crafting, tab,
+background and description pause requests are disabled. Enemies and time
+can continue while managing items. Esc pause, loading and cutscenes retain
+native behavior. Special subdialogs may use other pause paths.</p>
+<h2 id="autosaves-manual-saves-and-spoiled-ink">Autosaves, manual saves and spoiled ink</h2>
+<p><strong>Automatic gameplay saving is forbidden while the mod is enabled.</strong> There
+is no separate autosave-enable setting. Auto/custom gameplay categories
+6-9 are denied, with a segment/slot guard. A resolved Auto slot is blocked
+even inside a manual call. Unclassified requests without valid category
+scope are denied.</p>
+<p>System/profile settings writes remain available without consuming quota.
+Existing autosaves remain on disk. In-memory checkpoints are not removed;
+chapter transitions and checkpoint retry behavior are not fully verified.</p>
+<table>
+<thead>
+<tr>
+<th>Manual-save rule</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Successful saves per run ID</td>
+<td>At most 12</td>
+</tr>
+<tr>
+<td>Cooldown after success</td>
+<td>900 live seconds / 15 minutes</td>
+</tr>
+<tr>
+<td>Fresh run's first save</td>
+<td>No initial cooldown</td>
+</tr>
+<tr>
+<td>Spoiled ink chance</td>
+<td>25% per eligible ribbon transaction</td>
+</tr>
+</tbody>
+</table>
+<p>Manual saves must use the typewriter interface and pass all rules. Where
+native saving needs a ribbon, a real finite ribbon is required; an infinite
+ribbon bonus cannot replace it. The first save still needs other conditions.</p>
+<p><strong>Spoiled ink consumes one ribbon, refuses the write and prevents refund.</strong>
+The HUD reports failure; the game may show its own save-error dialog. The
+transaction result is remembered so repeated checks cannot reroll it.
+Quota/cooldown rejection retains the native refund path. Failed saves do
+not consume successful-save quota or start a success cooldown; only the
+native successful-write callback increments quota.</p>
+<p>Spoilage applies where the game already requires ribbons, usually Grace's
+sections. The mod does not add a ribbon requirement elsewhere or corrupt
+or delete existing saves.</p>
+<h2 id="time-hud-and-language">Time, HUD and language</h2>
+<p>Resources, cooldowns, heat and Stress use identified live gameplay time.
+Timers stop for reported pause/loading, invalid/dead/suspended players,
+cutscene invalidation, unfocus/minimize where detectable, and stalls above
+0.5 seconds. Successfully unpaused inventory continues those timers.</p>
+<p>The HUD at <code>(28, 80)</code> shows Stress, stamina/exhaustion, One Life status,
+light energy, save count, finite/autosave restrictions, jam/panic notices and
+the nearest recognized threat in range. Hiding it leaves gameplay and panic
+visuals active; a dead One Life notice stays visible.</p>
+<p>Choose <strong>English / Tiếng Việt</strong> in the menu. Both languages cover HUD,
+controls and notifications; pending notifications use the current language.
+Noto Sans applies only to this mod's UI. Engine IDs, JSON keys and diagnostic
+events retain stable English identifiers.</p>
+<p>Pre.5 corrects the combo's one-based Lua keys: English is 1, Vietnamese is 2.
+Selection saves immediately and reloads without resetting the run. Switching
+and persistence have automated coverage; native UI verification is pending.</p>
+<h2 id="persistence-and-diagnostics">Persistence and diagnostics</h2>
+<p>Configuration and run ledgers live in <code>reframework/data/project_requiem/</code>.
+The ledger stores Stress/panic, stamina/exhaustion/recovery delay, lights,
+elapsed time, save quota/cooldown, RNG/ink decisions, One Life
+activation/death/attempt/trusted slots and total counters. It flushes about
+every 15 gameplay seconds and on relevant save/config/reset/report
+callbacks. One Life death, mode changes, New Game and confirmed One Life
+saves flush immediately. Sidecar writes are not gameplay autosaves. Crashes
+or failed disk writes can lose state.</p>
+<p>Loading earlier native progress does not refund a <code>run_id</code> ledger. New Game
+starts a fresh attempt in that ID. Reports export after 120 frames, every
+1,800 frames or through the menu. They include:</p>
+<ul>
+<li>Hook calls/errors, applied events and resource/timer state.</li>
+<li>Stamina/exhaustion, movement and applied/base locomotion speed.</li>
+<li>One Life death, attempt, trusted slots and Easy/cache state.</li>
+<li>Weapon/jam/panic, character eligibility, camera sway and reflected
+projectile-request fields.</li>
+<li>Light control/renderer writes, bonus flags and blocked save categories.</li>
+<li>Threat sources/counts/distances and selected language.</li>
+</ul>
+<p>Reflection checks signatures without fixed memory offsets. The installer
+backs up owned files, migrates old names and preserves unrelated mods.
+Removal retains data and modified files. Code uses MIT; the bundled font
+has its own OFL license.</p>
+<p>See <a href="CONFIGURATION.html">configuration</a>, <a href="TROUBLESHOOTING.html">troubleshooting</a>
+and <a href="SOURCES.html">sources</a>.</p>
+</article>
+    <hr>
+    <p><a href="../index.html">← Back to Project Requiem</a></p>
+  </main>
+</body>
+</html>

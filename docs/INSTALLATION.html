@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fafafa">
+  <meta name="description" content="Installation — Project Requiem documentation.">
+  <title>Installation — Project Requiem</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="nav-shell">
+    <a class="wordmark" href="../index.html">Project Requiem</a>
+    <nav class="nav-actions" aria-label="Documentation language">
+      <a class="text-link" href="README.html" lang="en" aria-current="true">EN</a>
+      <a class="text-link" href="vi/README.html" lang="vi">Tiếng Việt</a>
+      <a class="button secondary" href="../index.html">Back to site ↗</a>
+    </nav>
+  </div></header>
+  <main class="documentation" id="main">
+    <p class="eyebrow">PROJECT REQUIEM / DOCUMENTATION</p>
+    <nav aria-label="Documentation navigation"><p><a href="README.html">Overview</a> &nbsp;·&nbsp; <a href="FEATURES.html">Features</a> &nbsp;·&nbsp; <a href="INSTALLATION.html">Installation</a> &nbsp;·&nbsp; <a href="CONFIGURATION.html">Configuration</a> &nbsp;·&nbsp; <a href="TROUBLESHOOTING.html">Troubleshooting</a> &nbsp;·&nbsp; <a href="TESTING.html">Testing</a> &nbsp;·&nbsp; <a href="SOURCES.html">Sources</a> &nbsp;·&nbsp; <a href="CHANGELOG.html">Changelog</a> &nbsp;·&nbsp; <a href="LICENSE.html">Licenses</a></p></nav>
+    <article><h1 id="installation">Installation</h1>
+<p>This guide covers Project Requiem <strong>0.3.0-pre.5</strong>. For balance and mode
+rules, see <a href="FEATURES.html">Features</a>. Vietnamese readers can start with the
+<a href="vi/README.html">Vietnamese guide</a>.</p>
+<h2 id="before-installing">Before installing</h2>
+<ol>
+<li>Close Resident Evil Requiem.</li>
+<li>Locate the folder containing <code>re9.exe</code>.</li>
+<li>Install the RE9-compatible build of <a href="https://github.com/praydog/REFramework-nightly/releases" rel="noopener noreferrer">REFramework</a>. Its
+<code>dinput8.dll</code> belongs beside <code>re9.exe</code>.</li>
+<li>Back up the game saves you intend to use with this pre-release.</li>
+</ol>
+<p>Project Requiem contains ten Lua files, a default configuration and a
+font/license pair. It does not replace the executable or REFramework DLL,
+and does not require Loose File Loader.</p>
+<h2 id="recommended-installation">Recommended installation</h2>
+<p>Extract the release ZIP and open PowerShell in the extracted folder:</p>
+<pre><code class="language-powershell">powershell -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 `
+  -GamePath 'C:\Games\Resident Evil Requiem'
+</code></pre>
+<p>Replace <code>GamePath</code> with your game folder. The execution-policy override
+applies to this PowerShell process; it does not change machine policy.</p>
+<p>The installer validates the package and configuration, backs up replaced
+owned files, then installs the Lua scripts and font. Existing balance
+settings and run ledgers are retained. A missing language key becomes
+<code>&quot;language&quot;: &quot;en&quot;</code>; an existing language preference is retained.</p>
+<p>The installer normally stops if the game is running. <code>-AllowRunning</code> can
+stage files on disk, but copying them does not activate the new scripts.
+A full game restart is still required.</p>
+<h2 id="upgrading-older-versions">Upgrading older versions</h2>
+<p>Use <code>Install.ps1</code> when upgrading Project Requiem, Khúc Cầu Hồn / Requiem
+0.2.x or ULTRADEAD 0.1.x. Do not merge old and new autorun folders and leave
+both entrypoints enabled.</p>
+<p>For recognized legacy installations, the installer:</p>
+<ol>
+<li>Checks the old entrypoint's ownership marker. An unrecognized legacy
+entrypoint stops the upgrade before replacement.</li>
+<li>Backs up owned files, preserving relative paths, under
+<code>reframework/data/project_requiem/install-backups/&lt;timestamp&gt;/</code>.</li>
+<li>Migrates old JSON ledgers only when the destination does not exist.
+Configuration priority is Project Requiem, <code>khuc_cau_hon</code>, then
+<code>ultradead</code>.</li>
+<li>Adds English as the default only when the language key is missing.</li>
+<li>Installs the current namespace and removes recognized legacy code and
+font files. Original legacy data folders remain available.</li>
+</ol>
+<p>Old <code>status.json</code> reports are not migrated as current reports. The
+installer does not edit native game saves. If installation fails, resolve
+the reported file/configuration issue before starting the game. A restored
+legacy entrypoint must not run alongside the current one.</p>
+<h2 id="manual-fresh-installation">Manual fresh installation</h2>
+<p>For a fresh install, copy the package's <code>reframework</code> folder beside
+<code>re9.exe</code>. The resulting layout is:</p>
+<pre><code class="language-text">Resident Evil Requiem/
+  re9.exe
+  dinput8.dll                 # REFramework; installed separately
+  reframework/
+    autorun/
+      project_requiem.lua
+      project_requiem/
+        core.lua
+        sdk_util.lua
+        combat.lua
+        world.lua
+        saves.lua
+        locale.lua
+        survival.lua
+        loot_codec.lua
+        easy_life.lua
+    data/project_requiem/config.json
+    fonts/project_requiem/
+      NotoSans-Regular.ttf
+      OFL.txt
+</code></pre>
+<p>For upgrades, use the installer so the default JSON does not overwrite
+your settings and recognized old namespaces are removed safely.</p>
+<h2 id="first-startup">First startup</h2>
+<p>Open <strong>Insert → Script Generated UI → Project Requiem</strong>. Fresh installs
+enable the mod and HUD; upgrades retain existing settings.</p>
+<p>Choose <strong>Language → English / Tiếng Việt</strong> to change the interface. The
+choice saves immediately. Version pre.5 fixes the selector's table-key
+mapping. Its automated checks pass; direct native UI verification remains
+pending.</p>
+<p>The preset targets a new Insanity/Madness run and multiplies other selected
+difficulties too. It does not change the native difficulty setting.
+World-item visibility changes may require reloading the area or save.</p>
+<h2 id="separate-campaigns">Separate campaigns</h2>
+<p>Native <strong>New Game</strong> resets the active mod ledger and increments the
+attempt number. To retain separate campaign ledgers, close the game and
+choose another <code>run_id</code>, such as <code>campaign-02</code>, in the configuration.</p>
+<p>A new ID starts with full resources and quota. Normal native saves share
+the active ledger. One Life additionally limits resume to successful
+manual saves from the current attempt. See <a href="CONFIGURATION.html">Configuration</a>.</p>
+<h2 id="optional-one-life">Optional One Life</h2>
+<h3 id="strict">Strict</h3>
+<p>Choose <strong>Enable One Life</strong> in the mod menu. Strict is off by default. It
+can be enabled before New Game or while alive in an existing campaign.
+After activation, make a successful manual save before quitting if you
+need resume access. Disable only while alive.</p>
+<p>After death, return to the title screen and start <strong>New Game</strong>. Native
+save files remain on disk. The general mod checkbox and script resets do
+not revive a dead One Life attempt.</p>
+<h3 id="easy">Easy</h3>
+<p>During live gameplay at a calm point, choose <strong>Enable One Life (Easy)</strong>.
+Activation checks the current carried inventory before enabling the mode.</p>
+<p>After a supported defeat, press <strong>F6 / Continue (Easy)</strong>. The current live
+world resumes at the last recorded calm point in the same player/area,
+with 50% HP. Return within <strong>2 m</strong> of the marked death cache and use
+<strong>F7 / Recover</strong>.</p>
+<p>After Continue, make a successful manual save before quitting if you need
+resume access. The full native revival/transfer/recovery cycle remains
+unverified. See <a href="FEATURES.html#one-life-easy">Easy rules and limits</a>.</p>
+<h2 id="removal">Removal</h2>
+<p>Close the game. Run the installer from the same release package:</p>
+<pre><code class="language-powershell">powershell -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 `
+  -GamePath 'C:\Games\Resident Evil Requiem' -Uninstall
+</code></pre>
+<p>Only installed files whose hashes match the package are removed. Modified
+or unverifiable files, including files from another version, are retained
+with a warning. Configuration, ledgers, backups, REFramework and unrelated
+mods remain available.</p>
+<p>For manual removal, remove only the Project Requiem entrypoint, its nine
+Lua modules and its dedicated font/license files. Keep the data folder if
+you plan to reinstall.</p>
+</article>
+    <hr>
+    <p><a href="../index.html">← Back to Project Requiem</a></p>
+  </main>
+</body>
+</html>

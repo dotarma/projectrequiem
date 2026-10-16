@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fafafa">
+  <meta name="description" content="Sources and licensing — Project Requiem documentation.">
+  <title>Sources and licensing — Project Requiem</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="nav-shell">
+    <a class="wordmark" href="../index.html">Project Requiem</a>
+    <nav class="nav-actions" aria-label="Documentation language">
+      <a class="text-link" href="README.html" lang="en" aria-current="true">EN</a>
+      <a class="text-link" href="vi/README.html" lang="vi">Tiếng Việt</a>
+      <a class="button secondary" href="../index.html">Back to site ↗</a>
+    </nav>
+  </div></header>
+  <main class="documentation" id="main">
+    <p class="eyebrow">PROJECT REQUIEM / DOCUMENTATION</p>
+    <nav aria-label="Documentation navigation"><p><a href="README.html">Overview</a> &nbsp;·&nbsp; <a href="FEATURES.html">Features</a> &nbsp;·&nbsp; <a href="INSTALLATION.html">Installation</a> &nbsp;·&nbsp; <a href="CONFIGURATION.html">Configuration</a> &nbsp;·&nbsp; <a href="TROUBLESHOOTING.html">Troubleshooting</a> &nbsp;·&nbsp; <a href="TESTING.html">Testing</a> &nbsp;·&nbsp; <a href="SOURCES.html">Sources</a> &nbsp;·&nbsp; <a href="CHANGELOG.html">Changelog</a> &nbsp;·&nbsp; <a href="LICENSE.html">Licenses</a></p></nav>
+    <article><h1 id="sources-and-licensing">Sources and licensing</h1>
+<p>This page records the API references and licenses used by Project Requiem
+<strong>0.3.0-pre.5</strong>. A matching API signature establishes compatibility with a
+captured method, not correct behavior in every native gameplay path.</p>
+<h2 id="captured-game-metadata">Captured game metadata</h2>
+<p>Game-specific method signatures were checked against read-only reflection
+from the user's Resident Evil Requiem <strong>TDB83</strong> installation, captured on
+14 October 2026. The recorded framework build was dated 26 April 2026, with
+commit:</p>
+<pre><code class="language-text">c4b1314820d20255febf7834903e8cedb669b49c
+</code></pre>
+<p>The installer retains the existing REFramework DLL. Reflection dumps and
+reference repositories are development inputs and do not ship in the ZIP.
+No fixed game memory offsets are used.</p>
+<h2 id="official-reframework-references">Official REFramework references</h2>
+<ul>
+<li><a href="https://github.com/praydog/REFramework" rel="noopener noreferrer">REFramework source</a> provides the framework implementation.</li>
+<li>The <a href="https://cursey.github.io/reframework-book/api/sdk.html" rel="noopener noreferrer">SDK API</a> covers hooks, native fields, allocation and the primary
+camera. Temporary projectile rotation and One Life translation arguments
+use this API.</li>
+<li><a href="https://cursey.github.io/reframework-book/api/thread.html" rel="noopener noreferrer">Hook-local storage</a> isolates recursive and threaded hook calls.</li>
+<li><a href="https://cursey.github.io/reframework-book/api/types/RETypeDefinition.html" rel="noopener noreferrer">Type reflection</a> supports exact method signatures and inherited
+fields. Uncaptured request-direction fields and archive-state getters
+are accepted only after runtime name/type checks.</li>
+<li><a href="https://cursey.github.io/reframework-book/api/re.html" rel="noopener noreferrer">Application callbacks</a> supply gameplay and render timing.</li>
+<li><a href="https://cursey.github.io/reframework-book/api/types/Quaternion.html" rel="noopener noreferrer">Quaternion</a> documents the constructor order <code>(w, x, y, z)</code>.</li>
+<li><a href="https://cursey.github.io/reframework-book/api/types/REManagedObject.html" rel="noopener noreferrer">Managed objects</a>, <a href="https://cursey.github.io/reframework-book/api/types/REField.html" rel="noopener noreferrer">fields</a> and <a href="https://cursey.github.io/reframework-book/api/types/SystemArray.html" rel="noopener noreferrer">arrays</a> support
+the owned item-data codec used by One Life (Easy).</li>
+<li><a href="https://cursey.github.io/reframework-book/api/draw.html" rel="noopener noreferrer">Draw</a> provides the HUD, panic overlay and death-cache markers.</li>
+<li><a href="https://cursey.github.io/reframework-book/api/imgui.html" rel="noopener noreferrer">ImGui</a> provides controls and font loading. Its combo binding
+returns a key from the Lua options table; the language list uses 1/2.</li>
+<li>The <a href="https://github.com/praydog/REFramework/blob/master/src/mods/bindings/ImGui.cpp" rel="noopener noreferrer">combo implementation</a> confirms table-key selection and the
+fallback to the first key for an unavailable selection.</li>
+<li><a href="https://cursey.github.io/reframework-book/api/json.html" rel="noopener noreferrer">JSON persistence</a> documents configuration and ledger writes.</li>
+</ul>
+<p>These references explain API contracts. Automated mocks based on them do
+not establish native UI, camera, inventory or save-flow verification.</p>
+<h2 id="community-api-references">Community API references</h2>
+<h3 id="namskus-re-engine-trainer">Namsku's RE Engine trainer</h3>
+<p>The <a href="https://github.com/Namsku/re-engine-trainer" rel="noopener noreferrer">trainer repository</a> supplies additional references for
+infinity flags, rank factors, weapon data and native motion-layer speed.
+The RE9 implementation is in <code>re9/requiem_trainer/features.lua</code>.</p>
+<h3 id="re9-randomiser">RE9 Randomiser</h3>
+<p><a href="https://github.com/KyroGeorge2/RE9-Randomiser" rel="noopener noreferrer">KyroGeorge2's randomiser</a> identifies healing item IDs and
+illustrates why general inventory merge hooks would also affect item-box
+transfers. Project Requiem limits scarcity to recognized world objects.</p>
+<h3 id="relit">RELit</h3>
+<p><a href="https://github.com/originalnicodr/RELit" rel="noopener noreferrer">originalnicodr's RELit</a> provides renderer enable/intensity API
+references. Project Requiem's current depleted-light path uses reversible
+enable/visibility flags and leaves intensity unchanged.</p>
+<p>The Lua algorithms are written for this mod. Names, signatures and item
+IDs are used for API interaction; external repositories are not bundled.</p>
+<h2 id="documentation-style">Documentation style</h2>
+<p>The documentation follows the user-requested <a href="https://github.com/RedondoK/claude-md-skill/blob/main/markdown/SKILL.md" rel="noopener noreferrer">Markdown skill</a>,
+version 1.2.1. The project lint configuration checks current English and
+Vietnamese documents with markdownlint. Archived release documentation
+retains its historical form.</p>
+<h2 id="bundled-font">Bundled font</h2>
+<p>Noto Sans Regular is distributed unchanged from the <a href="https://github.com/notofonts/noto-fonts" rel="noopener noreferrer">Noto font repository</a>
+under the
+<a href="../legal/NotoSans-OFL.txt">SIL Open Font License 1.1</a>.
+The original copyright and license notice ship with the font. See the
+<a href="https://github.com/notofonts/noto-fonts/blob/main/LICENSE" rel="noopener noreferrer">upstream font license</a>.</p>
+<p>Font SHA-256:</p>
+<pre><code class="language-text">b85c38ecea8a7cfb39c24e395a4007474fa5a4fc864f6ee33309eb4948d232d5
+</code></pre>
+<h2 id="mod-license-and-distribution">Mod license and distribution</h2>
+<p>The <a href="LICENSE.html#project-requiem-code">MIT license</a> covers Project Requiem
+code. The consolidated <a href="LICENSE.html">LICENSE.md</a> also contains notices
+for the bundled font, separately supplied runtime, development tools and
+reference sources, with installed development package inventories.</p>
+<p>Components retain their own licenses. Reference sources without a located
+license are identified explicitly. No Capcom executable, DLL or game
+assets are distributed.</p>
+</article>
+    <hr>
+    <p><a href="../index.html">← Back to Project Requiem</a></p>
+  </main>
+</body>
+</html>

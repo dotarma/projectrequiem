@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fafafa">
+  <meta name="description" content="Verification and testing — Project Requiem documentation.">
+  <title>Verification and testing — Project Requiem</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="nav-shell">
+    <a class="wordmark" href="../index.html">Project Requiem</a>
+    <nav class="nav-actions" aria-label="Documentation language">
+      <a class="text-link" href="README.html" lang="en" aria-current="true">EN</a>
+      <a class="text-link" href="vi/README.html" lang="vi">Tiếng Việt</a>
+      <a class="button secondary" href="../index.html">Back to site ↗</a>
+    </nav>
+  </div></header>
+  <main class="documentation" id="main">
+    <p class="eyebrow">PROJECT REQUIEM / DOCUMENTATION</p>
+    <nav aria-label="Documentation navigation"><p><a href="README.html">Overview</a> &nbsp;·&nbsp; <a href="FEATURES.html">Features</a> &nbsp;·&nbsp; <a href="INSTALLATION.html">Installation</a> &nbsp;·&nbsp; <a href="CONFIGURATION.html">Configuration</a> &nbsp;·&nbsp; <a href="TROUBLESHOOTING.html">Troubleshooting</a> &nbsp;·&nbsp; <a href="TESTING.html">Testing</a> &nbsp;·&nbsp; <a href="SOURCES.html">Sources</a> &nbsp;·&nbsp; <a href="CHANGELOG.html">Changelog</a> &nbsp;·&nbsp; <a href="LICENSE.html">Licenses</a></p></nav>
+    <article><h1 id="verification-and-testing">Verification and testing</h1>
+<p>Project Requiem <strong>0.3.0-pre.5</strong> has automated rule, API-fixture, UI and
+installer coverage. These checks do not establish complete native gameplay,
+visual correctness or campaign compatibility. The release remains a
+<strong>pre-release</strong>.</p>
+<h2 id="automated-checks">Automated checks</h2>
+<table>
+<thead>
+<tr>
+<th>Lua suite</th>
+<th>Checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core rules</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Stamina and One Life</td>
+<td>11</td>
+</tr>
+<tr>
+<td>Easy and loot transactions</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Runtime/API fixtures</td>
+<td>44</td>
+</tr>
+<tr>
+<td>Locale</td>
+<td>4</td>
+</tr>
+<tr>
+<td>UI and migration</td>
+<td>11</td>
+</tr>
+<tr>
+<td>Total</td>
+<td>121</td>
+</tr>
+</tbody>
+</table>
+<p>All ten shipped Lua files compile under Lua 5.4. Hook signatures are checked
+against captured RE9 <strong>TDB83</strong> metadata. Nine installer scenarios cover
+fresh installation, both previous namespaces, settings/ledger/backup
+preservation, reinstall, modified-file-safe removal and rejection of
+unrecognized/broken input.</p>
+<h3 id="gameplay-and-resource-coverage">Gameplay and resource coverage</h3>
+<ul>
+<li>Damage/healing scaling, finite bonuses, scarcity, jams, live inventory,
+manual/automatic saving and dormant-threat scanning.</li>
+<li>Sprint duration, delayed/half-rate recovery, exhaustion thresholds,
+pause/stall guards and persisted exhaustion. Native post-input sprint
+rewrites, forced-walk restoration and non-compounding locomotion playback
+cover transitions into/out of reloads. Root-translation restoration is
+still checked for One Life's death lock.</li>
+<li>Panic thresholds and Grace/Leon kind-ID eligibility; cached-target
+recalculation, temporary final shell rotation and reflected request
+direction discovery/deduplication. Camera checks cover bounded sway without
+drift and restoration on pause, disable and recovery.</li>
+<li>Both light pools through repeated depletion/unlock/toggle cycles, exact
+15% thresholds, persisted latches and legacy migration. Checks assert no
+intensity change or external off request, plus recharge/ready messages.</li>
+</ul>
+<p>The uncaptured projectile-request parent direction field is an explicitly
+synthetic fixture, not evidence of a native field layout.</p>
+<h3 id="one-life-and-easy-coverage">One Life and Easy coverage</h3>
+<ul>
+<li>Immediate current-player death persistence, resistance to config/reset
+bypass and successful-save slot registration.</li>
+<li>Old/unknown/dead-slot denial, allowed system loads, native New Game reset,
+stale-death suppression and in-memory respawn movement/fire/save guards.
+The dead notice stays visible with the ordinary HUD/mod disabled.</li>
+<li>Easy activation preflight, soft lethal/force-death guards and same-session
+Continue without save/load calls.</li>
+<li>Exact cache coordinates, typed owned-data round trips, attached-panel
+deduplication, archive/key-item transfer, capacity/range/identity checks
+and retention of newly acquired items.</li>
+<li>Failure rollback, journal reconciliation and mode/slot restrictions.</li>
+</ul>
+<p>Serializer tests use synthetic weapon, attachment, round and boxed-data
+graphs. They do not claim captured native weapon layouts. Mutation method
+signatures match TDB83; archive read getters are checked by reflection.</p>
+<h3 id="language-ui-and-package-coverage">Language, UI and package coverage</h3>
+<ul>
+<li>English defaults, Vietnamese selection, key/format parity and fallback.</li>
+<li>Loading the renamed entrypoint with older config/ledger data.</li>
+<li>Switching both languages through the real one-based Lua table keys,
+immediate persistence and reload of saved Vietnamese without resetting
+resources, death status or One Life attempt. The UI mock reproduces
+REFramework's first-key fallback for an invalid selection.</li>
+<li>Stable widget IDs and balanced font handling.</li>
+<li>Bundled font codepoints/ranges for the interface text.</li>
+<li>Release archive CRC and SHA-256 manifest verification.</li>
+</ul>
+<p>These are Lua/SDK/UI mocks and file checks. They do not emulate every native
+weapon animation, ValueType ABI, visual pipeline or save/checkpoint
+transaction.</p>
+<h2 id="native-evidence">Native evidence</h2>
+<h3 id="earlier-02-reports">Earlier 0.2 reports</h3>
+<p>Collected reports show a live gameplay clock, jam input/ammo guards,
+light-renderer override events, finite-bonus enforcement and rejection of an
+automatic gameplay save, without collected callback errors. They confirm
+calls/guards, not complete gameplay or visual correctness.</p>
+<p>The user reported no Stress increase near a Licker. The old scanner excluded
+suspended contexts and depended on HP readings. New scanning, positions and
+diagnostics address possible exclusions, but the exact native cause was
+not conclusively captured. A zero-call accuracy getter also motivated
+additional reticle/target paths.</p>
+<h3 id="pre3-report-and-reported-failures">Pre.3 report and reported failures</h3>
+<p>A collected pre.3 development report contains:</p>
+<ul>
+<li>Six stamina exhaustion/recovery events.</li>
+<li>2,176 movement-scaling events and 2,371 sprint-block events.</li>
+<li>No collected hook errors on those paths.</li>
+<li>An attached Easy <code>forceDead</code> hook with zero calls and no observed Easy
+death/cache/Continue cycle.</li>
+</ul>
+<p>The user then reported running with empty stamina, no Grace dizziness, no
+bullet deviation and lights that would not switch on after recharge. The
+report shows zero calls to native sprint-switch, sick/fear and
+<code>calcFireDirection</code> methods, plus repeated light-renderer shutoff events.
+Those findings prevent interpreting the old event counts as gameplay
+success.</p>
+<p>Recorded flashlight energy was 16.049, below the 27-energy unlock threshold.
+The old HUD did not explain that threshold. This may explain that particular
+locked state; it does not resolve every light-control problem.</p>
+<h3 id="pre4-and-pre5-corrections">Pre.4 and pre.5 corrections</h3>
+<p>Pre.4 replaces ineffective movement, projectile, camera and light-control
+paths as described in <a href="FEATURES.html">features</a>. The replacements have <strong>not
+been re-tested live</strong>. Automated checks cover control flow/restoration,
+not native motion, ValueType ABI or visual results. A full game restart
+clears the previous runtime's possible external light latch. No manual
+game reset or new gameplay test was performed for that update.</p>
+<p>The user next reported that English could not switch to Vietnamese. Pre.5
+corrects zero-based combo indices to the returned Lua keys 1/2 and checks
+immediate persistence/reload using the corrected mock. It has <strong>not been
+verified in the native UI</strong>. No further gameplay test was requested.</p>
+<h2 id="remaining-verification-gaps">Remaining verification gaps</h2>
+<p>No full native validation covers the later Licker/panic changes,
+localization, One Life or Easy. Outstanding checks include:</p>
+<ul>
+<li>Grace's sick-state appearance and each weapon's actual trajectory.</li>
+<li>Empty lighter visuals and every chapter/checkpoint transition.</li>
+<li>Native death, New Game and value-type slot identity.</li>
+<li>A successful native resume through category-level slot-resolution fallback.</li>
+<li>Easy current-inventory preflight, owned-item serialization, warp/HP reset,
+capacity, rollback and recovery with real items.</li>
+</ul>
+<p>Easy points are not engine checkpoints/navmesh validation. Scripted death,
+streaming, one-way routes, story progress and character changes may bypass
+guards or make caches unreachable. See <a href="FEATURES.html#one-life-easy">Easy limits</a>.</p>
+<h2 id="running-the-source-checks">Running the source checks</h2>
+<p>Use Python with a compatible Lupa wheel:</p>
+<pre><code class="language-powershell">python -m pip install --target .tools/python lupa
+python tools/test.py
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\installer_spec.ps1
+python tools/package.py
+</code></pre>
+<p>The development workspace also provides <code>.tools/python314/python.exe</code> for
+Lua checks. Portable runtimes, archives, research dumps and personal ledgers
+are excluded from the release ZIP.</p>
+<p>With Node.js 22 or later, run Markdown checks from the repository root
+using its configuration:</p>
+<pre><code class="language-powershell">npx markdownlint-cli2
+</code></pre>
+<h2 id="future-native-test-matrix">Future native test matrix</h2>
+<p>Use disposable/backed-up game-save slots when native testing is available.
+This matrix records future verification work; it does not request another
+test from the current user.</p>
+<h3 id="startup-timing-and-interface">Startup, timing and interface</h3>
+<ol>
+<li><strong>Launch/load/menu:</strong> no initialization errors; resources do not drain
+during loading, Esc pause or unfocus.</li>
+<li><strong>English/Vietnamese:</strong> menu, HUD and notifications switch; accents render
+completely and preference survives restart.</li>
+<li><strong>Grace/Leon in FPS/TPS:</strong> HUD and supported rules target the active player.</li>
+<li><strong>Upgrade/reinstall/uninstall:</strong> one active namespace; settings/resources
+preserved and unrelated mods retained.</li>
+</ol>
+<h3 id="stamina-and-panic">Stamina and panic</h3>
+<ol>
+<li><strong>Sprint to zero, hold sprint, rest/walk:</strong> drain 16/second, wait 2 seconds,
+recover 12/second idle or 6/second moving; sprint unlocks at 25.</li>
+<li><strong>Stairs/crouch/aim/terrain/damage/riding:</strong> ordinary locomotion slows;
+excluded actions and unrelated animations remain native.</li>
+<li><strong>Reset/restart exhausted:</strong> stamina, exhaustion and delay persist.</li>
+<li><strong>Dormant/live Licker within 12 m:</strong> Stress rises and scan diagnostics
+identify the threat. Corpses, despawned contexts and enemies outside
+12 m contribute nothing through proximity.</li>
+<li><strong>Stress 100, 99, 90:</strong> panic starts, stays latched, then releases.</li>
+<li><strong>Panic with HUD hidden:</strong> projectile deviation, bounded sway and overlay
+remain; pause/recovery restores the camera.</li>
+<li><strong>Native sick-state comparison:</strong> record Grace and Leon separately;
+method calls alone do not establish matching visuals.</li>
+</ol>
+<h3 id="combat-and-resources">Combat and resources</h3>
+<ol>
+<li><strong>Cold shots/hot bursts:</strong> cold shots do not jam; hot bursts can. Blocked
+later shots consume no ammunition.</li>
+<li><strong>Jam with full magazine/weapon swap:</strong> Reload/R starts timed clearing;
+swapping alone does not clear it.</li>
+<li><strong>Reload variants/upgrades:</strong> slower animation without cumulative scaling.</li>
+<li><strong>Healing at low/high Stress:</strong> reduced recovery, no double scaling and
+unchanged maximum HP.</li>
+<li><strong>Pickup revisit/item-box transfers:</strong> stable scarcity; transfers remove
+no additional items and key items remain.</li>
+<li><strong>Inventory/box/crafting dialogs:</strong> recognized panels leave the world live;
+Esc still pauses. Record special subdialogs separately.</li>
+<li><strong>Repeated light depletion/recharge/toggle:</strong> emitters turn off; the HUD
+explains 15% and announces readiness at 27/13.5 energy. Normal toggle
+works after release for both light types.</li>
+</ol>
+<h3 id="strict-and-easy-attempts">Strict and Easy attempts</h3>
+<ol>
+<li><strong>Arm/save/quit/resume:</strong> only confirmed manual slots in that attempt load.</li>
+<li><strong>Strict death/reset/restart:</strong> Continue/Load stays locked; resolved
+system/profile loads remain available.</li>
+<li><strong>In-memory retry:</strong> native game over is requested; recognized movement
+and firing stay blocked.</li>
+<li><strong>Easy preflight:</strong> weapons, attachments, rounds and keys round-trip before
+activation without removing inventory.</li>
+<li><strong>Supported lethal hit/forceDead:</strong> one custom defeat prompt and cache at
+the death position; no duplicate transfer.</li>
+<li><strong>F6 Continue:</strong> same-area calm point, 50% HP and unchanged mod resources
+in the current world, without native save loading.</li>
+<li><strong>Return/F7:</strong> same player/area, within 2 m, full metadata preserved;
+inventory overflow remains in the cache.</li>
+<li><strong>Further deaths/Lua reset:</strong> earlier unclaimed caches remain; interrupted
+transactions reconcile once.</li>
+<li><strong>Execution/fall/cutscene death:</strong> record guard bypass; do not assume Easy
+can Continue after every native death.</li>
+<li><strong>Quit after Easy Continue:</strong> only a subsequent successful manual save
+establishes a valid resume slot.</li>
+<li><strong>Cancel/start New Game:</strong> cancel preserves the lock; actual setup resets
+the attempt and rejects earlier attempts' slots.</li>
+</ol>
+<h3 id="saving-and-campaign-transitions">Saving and campaign transitions</h3>
+<ol>
+<li><strong>Success/quota/cooldown:</strong> native success counts once; rejected attempts
+do not count as successful saves.</li>
+<li><strong>Forced spoiled ink in test config:</strong> one ribbon lost, write denied,
+no refund, existing save still readable.</li>
+<li><strong>Autosave/chapter/checkpoint:</strong> gameplay writes denied; examine native
+retries and transition behavior.</li>
+<li><strong>Profile/settings:</strong> writes allowed without consuming manual quota.</li>
+</ol>
+</article>
+    <hr>
+    <p><a href="../index.html">← Back to Project Requiem</a></p>
+  </main>
+</body>
+</html>

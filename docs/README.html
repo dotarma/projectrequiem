@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fafafa">
+  <meta name="description" content="Project Requiem — Project Requiem documentation.">
+  <title>Project Requiem — Project Requiem</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="nav-shell">
+    <a class="wordmark" href="../index.html">Project Requiem</a>
+    <nav class="nav-actions" aria-label="Documentation language">
+      <a class="text-link" href="README.html" lang="en" aria-current="true">EN</a>
+      <a class="text-link" href="vi/README.html" lang="vi">Tiếng Việt</a>
+      <a class="button secondary" href="../index.html">Back to site ↗</a>
+    </nav>
+  </div></header>
+  <main class="documentation" id="main">
+    <p class="eyebrow">PROJECT REQUIEM / DOCUMENTATION</p>
+    <nav aria-label="Documentation navigation"><p><a href="README.html">Overview</a> &nbsp;·&nbsp; <a href="FEATURES.html">Features</a> &nbsp;·&nbsp; <a href="INSTALLATION.html">Installation</a> &nbsp;·&nbsp; <a href="CONFIGURATION.html">Configuration</a> &nbsp;·&nbsp; <a href="TROUBLESHOOTING.html">Troubleshooting</a> &nbsp;·&nbsp; <a href="TESTING.html">Testing</a> &nbsp;·&nbsp; <a href="SOURCES.html">Sources</a> &nbsp;·&nbsp; <a href="CHANGELOG.html">Changelog</a> &nbsp;·&nbsp; <a href="LICENSE.html">Licenses</a></p></nav>
+    <article><h1 id="project-requiem">Project Requiem</h1>
+<p>Project Requiem is a survival difficulty mod for Resident Evil Requiem PC,
+powered by REFramework. Current release: <strong>0.3.0-pre.5</strong>.</p>
+<p>English is the default interface and documentation language.
+<a href="vi/README.html">Tiếng Việt</a> is available with a bundled Vietnamese font.</p>
+<h2 id="what-the-mod-adds">What the mod adds</h2>
+<ul>
+<li>Tougher enemies, stronger incoming damage and weaker weapons.</li>
+<li>Slower firing and reloading, with heat-based weapon jams.</li>
+<li>Finite ammunition and knife/axe durability for built-in infinite bonuses.</li>
+<li>Fewer healing items and ink ribbons, with weaker item healing.</li>
+<li>Stress from nearby threats, low health, damage and gunfire.</li>
+<li>Panic at Stress 100: unsteady aim, projectile deviation, camera sway and
+a haze/tunnel-vision overlay.</li>
+<li>Stamina that drains while sprinting; exhaustion forces slower movement.</li>
+<li>Optional One Life (Strict) and One Life (Easy).</li>
+<li>Limited flashlight/lighter energy with gradual recharge while off.</li>
+<li>Inventory and item-box menus that keep gameplay running.</li>
+<li>No gameplay autosaves. Manual saves have a quota, cooldown and a 25%
+spoiled-ink chance where the game requires ribbons.</li>
+</ul>
+<p>The preset multiplies the selected game difficulty. It is designed for a
+new Insanity/Madness run and does not change the native difficulty setting.
+See <a href="FEATURES.html">features and default values</a>.</p>
+<h2 id="release-status">Release status</h2>
+<p>This is a pre-release. <strong>121 Lua checks and nine installer scenarios pass</strong>,
+but they do not establish correct native visuals, every weapon trajectory
+or a complete campaign. The latest gameplay and language-selector fixes
+have not been re-tested directly in the game.</p>
+<p>One Life (Easy) is experimental. Its inventory transfer, revival and item
+recovery cycle still needs native verification. Read the
+<a href="TESTING.html">evidence and limits</a> before adopting the mod, and keep a
+backup of the game saves you intend to use.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Resident Evil Requiem PC, with <code>re9.exe</code> in the game folder.</li>
+<li>An RE9-compatible <a href="https://github.com/praydog/REFramework-nightly/releases" rel="noopener noreferrer">official REFramework build</a>.</li>
+<li>REFramework Lua SDK and hook-local thread storage support.</li>
+</ul>
+<p>The captured compatibility baseline is <strong>TDB83</strong>. REFramework's DLL and
+game assets are not included. Loose File Loader is not required.</p>
+<h2 id="install">Install</h2>
+<ol>
+<li>
+<p>Close the game and install REFramework if needed.</p>
+</li>
+<li>
+<p>Extract <code>Project-Requiem-0.3.0-pre.5.zip</code> into a working folder.</p>
+</li>
+<li>
+<p>Open PowerShell in that folder and run the command below. Replace the
+game path if yours differs.</p>
+<pre><code class="language-powershell">powershell -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 `
+  -GamePath 'C:\Games\Resident Evil Requiem'
+</code></pre>
+</li>
+<li>
+<p>Start the game and open <strong>Insert → Script Generated UI → Project Requiem</strong>.</p>
+</li>
+<li>
+<p>Choose the native difficulty for your run. One Life is optional and off
+by default.</p>
+</li>
+</ol>
+<p>Use the installer for upgrades. It backs up replaced mod files, preserves
+settings and run ledgers, and migrates recognized older namespaces.
+See <a href="INSTALLATION.html">installation, upgrades and removal</a>.</p>
+<h2 id="language-and-settings">Language and settings</h2>
+<p>Choose <strong>Language → English / Tiếng Việt</strong> in the mod menu. The interface
+updates immediately and saves the choice. Version pre.5 fixes the language
+selector; the saved preference survives script reloads.</p>
+<p>Configuration lives in <code>reframework/data/project_requiem/config.json</code>.
+Close the game before editing it manually. See the
+<a href="CONFIGURATION.html">configuration reference</a>.</p>
+<p>Each <code>run_id</code> has a separate mod ledger. Loading an earlier native save
+does not refund the current run's resources or save quota. Native
+<strong>New Game</strong> starts a fresh attempt in that ledger.</p>
+<h2 id="one-life-modes">One Life modes</h2>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>After a supported death</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Strict</td>
+<td>Continue/Load stays locked until New Game.</td>
+</tr>
+<tr>
+<td>Easy</td>
+<td>F6 continues; carried items stay at the death site.</td>
+</tr>
+</tbody>
+</table>
+<p>Strict permits resume only from successful manual saves made in the
+current attempt after activation. Native save files are retained.</p>
+<p>Easy returns you to the last recorded calm point in the same player/area
+with 50% HP, without loading a save or rewinding the world. Return within
+2 m of the marked death cache and press <strong>F7</strong> to recover items. Overflow
+stays in the cache. After Continue, make a successful manual save before
+quitting if you need resume access. See
+<a href="FEATURES.html#one-life-easy">Easy rules</a>.</p>
+<h2 id="documentation">Documentation</h2>
+<ul>
+<li><a href="FEATURES.html">Features and balance</a></li>
+<li><a href="INSTALLATION.html">Installation, upgrades and removal</a></li>
+<li><a href="CONFIGURATION.html">Configuration</a></li>
+<li><a href="TROUBLESHOOTING.html">Troubleshooting</a></li>
+<li><a href="TESTING.html">Testing and native limits</a></li>
+<li><a href="SOURCES.html">Sources and licensing</a></li>
+<li><a href="CHANGELOG.html">Changelog</a></li>
+<li><a href="vi/README.html">Tài liệu tiếng Việt</a></li>
+</ul>
+<h2 id="development-and-licensing">Development and licensing</h2>
+<p>Lua source is in <code>reframework/autorun/project_requiem/</code>, with
+<code>reframework/autorun/project_requiem.lua</code> as the entrypoint. See
+<a href="TESTING.html#running-the-source-checks">source checks</a> for validation
+and packaging commands.</p>
+<p>Mod code uses the <a href="LICENSE.html#project-requiem-code">MIT license</a>.
+<a href="LICENSE.html">LICENSE.md</a> also records third-party notices and development
+tool licenses. Bundled Noto Sans uses the
+<a href="../legal/NotoSans-OFL.txt">SIL Open Font License 1.1</a>.
+Project Requiem is an unofficial mod; no Capcom executable or assets ship
+in the package.</p>
+</article>
+    <hr>
+    <p><a href="../index.html">← Back to Project Requiem</a></p>
+  </main>
+</body>
+</html>

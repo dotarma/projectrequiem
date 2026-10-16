@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fafafa">
+  <meta name="description" content="Project Requiem — Project Requiem documentation.">
+  <title>Project Requiem — Project Requiem</title>
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Đến nội dung</a>
+  <header class="site-header"><div class="nav-shell">
+    <a class="wordmark" href="../../index.html">Project Requiem</a>
+    <nav class="nav-actions" aria-label="Ngôn ngữ tài liệu">
+      <a class="text-link" href="../README.html" lang="en">EN</a>
+      <a class="text-link" href="README.html" lang="vi" aria-current="true">Tiếng Việt</a>
+      <a class="button secondary" href="../../index.html">Trang chủ ↗</a>
+    </nav>
+  </div></header>
+  <main class="documentation" id="main">
+    <p class="eyebrow">PROJECT REQUIEM / TÀI LIỆU</p>
+    <nav aria-label="Điều hướng tài liệu"><p><a href="README.html">Hướng dẫn</a> &nbsp;·&nbsp; <a href="FEATURES.html">Tính năng</a> &nbsp;·&nbsp; <a href="TESTING.html">Kiểm thử</a> &nbsp;·&nbsp; <a href="../CONFIGURATION.html">Cấu hình (EN)</a> &nbsp;·&nbsp; <a href="../TROUBLESHOOTING.html">Khắc phục lỗi (EN)</a> &nbsp;·&nbsp; <a href="../LICENSE.html">Giấy phép</a></p></nav>
+    <article><h1 id="project-requiem">Project Requiem</h1>
+<p>Mod tăng độ khó cho <strong>Resident Evil Requiem PC</strong>, chạy bằng REFramework.
+Phiên bản <strong>0.3.0-pre.5</strong>. Tài liệu cập nhật ngày <strong>16/10/2026</strong>.</p>
+<p>Project Requiem tăng áp lực chiến đấu, tài nguyên và lưu tiến độ. Preset
+được thiết kế để chơi trên một lượt <strong>Insanity/Madness</strong> mới. Mod nhân
+thêm các hệ số của độ khó đang chọn; không tự đổi độ khó trong game.</p>
+<p><strong>Đây là bản pre-release.</strong> Có 121 kiểm tra Lua và chín tình huống bộ cài
+đã qua. Các bản sửa thể lực, choáng, lệch đạn, hồi đèn và chọn ngôn ngữ
+chưa được xác minh lại trong game. Chu trình One Life (Easy) và toàn bộ
+chiến dịch cũng chưa được kiểm chứng trực tiếp.</p>
+<h2 id="ngôn-ngữ">Ngôn ngữ</h2>
+<p><strong>Tiếng Anh là mặc định.</strong> Để chuyển sang tiếng Việt có dấu:</p>
+<ol>
+<li>Nhấn <strong>Insert</strong> để mở REFramework.</li>
+<li>Mở <strong>Script Generated UI → Project Requiem</strong>.</li>
+<li>Chọn <strong>Language → Tiếng Việt</strong>.</li>
+</ol>
+<p>Lựa chọn được áp dụng, lưu ngay và giữ sau khi nạp lại script. Việc đổi
+ngôn ngữ không đặt lại tài nguyên, trạng thái chết hay lượt Một mạng.
+Tài liệu mặc định bằng tiếng Anh: <a href="../README.html">README</a>.</p>
+<h2 id="tính-năng-chính">Tính năng chính</h2>
+<ul>
+<li>Quái chịu đòn tốt hơn, đánh mạnh hơn; vũ khí gây ít sát thương hơn.</li>
+<li>Ép tắt vô hạn đạn và vô hạn độ bền dao/rìu tích hợp của game.</li>
+<li>Ít vật phẩm hồi máu và mực hơn; hồi máu kém hiệu quả hơn.</li>
+<li>Stress tăng gần quái, kể cả Licker phục kích. Stress 100 kích hoạt
+hoảng loạn, lệch đạn, rung/nghiêng camera và tối viền.</li>
+<li>Thể lực cạn sẽ ép đi bộ và giảm tốc; phải hồi đủ ngưỡng mới chạy lại.</li>
+<li>Bắn/nạp chậm hơn. Bắn nóng súng có thể kẹt đạn, cần gỡ bằng Reload.</li>
+<li>Đèn pin/bật lửa có năng lượng riêng, hồi chậm khi tắt.</li>
+<li>Mở túi và hòm đồ đã nhận diện không tạm dừng thế giới.</li>
+<li>Cấm autosave tiến độ. Save thủ công có hạn mức, thời gian chờ và nguy
+cơ hỏng mực.</li>
+<li>Tùy chọn <strong>One Life</strong> khóa lượt khi chết; <strong>One Life (Easy)</strong> cho
+Continue trong phiên hiện tại và để lại đống đồ ở vị trí chết.</li>
+</ul>
+<p>Thông số, luật và giới hạn: <a href="FEATURES.html">Toàn bộ tính năng</a>.</p>
+<h2 id="cài-đặt">Cài đặt</h2>
+<p>Cần bản PC của game và bản RE9 từ <a href="https://github.com/praydog/REFramework-nightly/releases" rel="noopener noreferrer">REFramework chính thức</a>.
+Gói mod không chứa DLL REFramework hoặc tài sản game. Không cần bật
+Loose File Loader cho các script Lua này.</p>
+<ol>
+<li>Đóng game và sao lưu save trước khi dùng bản pre-release.</li>
+<li>Giải nén gói Project Requiem.</li>
+<li>Chạy lệnh dưới đây từ thư mục vừa giải nén.</li>
+<li>Mở game và kiểm tra menu <strong>Project Requiem</strong> trong REFramework.</li>
+</ol>
+<pre><code class="language-powershell">powershell -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 `
+  -GamePath 'C:\Games\Resident Evil Requiem'
+</code></pre>
+<p>Cài mới cũng có thể chép thư mục <code>reframework</code> cạnh <code>re9.exe</code>. Khi nâng
+cấp, dùng bộ cài để giữ cấu hình, ledger và xử lý tên mod cũ.</p>
+<p>Khởi động lại game đầy đủ sau nâng cấp. Bản sửa ánh sáng cần bỏ trạng
+thái khóa mà runtime cũ có thể còn giữ. Vật phẩm khan hiếm áp dụng lúc
+spawn; cần load lại khu vực/save để thấy thay đổi ở đồ đã spawn trước đó.</p>
+<p>Hướng dẫn đầy đủ bằng tiếng Anh: <a href="../INSTALLATION.html">Installation</a>.</p>
+<h2 id="nâng-cấp-từ-bản-cũ">Nâng cấp từ bản cũ</h2>
+<p><code>Install.ps1</code> sao lưu các file mod bị thay thế, chuyển cấu hình/ledger từ
+ULTRADEAD hoặc Khúc Cầu Hồn / Requiem sang namespace <code>project_requiem</code>,
+và bỏ entrypoint cũ. Không chạy hai bộ hook cùng lúc.</p>
+<p>Bộ cài giữ thiết lập và dữ liệu run hiện có. Bản sao nằm trong thư mục
+<code>reframework/data/project_requiem/install-backups/</code>. Báo cáo cũ không
+được chuyển thành bằng chứng hoạt động của bản mới.</p>
+<h2 id="sử-dụng">Sử dụng</h2>
+<p>Menu <strong>Insert → Script Generated UI → Project Requiem</strong> có các nút bật
+mod, ẩn/hiện HUD, đổi ngôn ngữ, chọn Một mạng và xuất báo cáo.</p>
+<p>HUD hiện Stress, thể lực, năng lượng đèn, hạn mức save, trạng thái kẹt
+đạn/hoảng loạn và quái gần nhất đã nhận diện. Ẩn HUD không tắt luật
+gameplay hoặc hiệu ứng hoảng loạn.</p>
+<h3 id="one-life">One Life</h3>
+<p>Mặc định tắt. Nút <strong>Enable One Life / Bật chế độ Một mạng</strong> bật luật
+nghiêm ngặt: chết sẽ khóa Continue/Load đến khi thực sự bắt đầu New Game.
+Khi còn sống, chỉ tải được slot thủ công lưu thành công trong lượt đó.
+Nếu bật giữa chiến dịch, cần lưu mới trước khi thoát để có slot tiếp tục.</p>
+<h3 id="one-life-easy">One Life (Easy)</h3>
+<p>Bật bằng nút riêng tại điểm yên ổn. Đòn chí mạng được hỗ trợ sẽ hiện
+thông báo gục. <strong>F6 / Continue (Easy)</strong> đưa về điểm yên ổn ghi gần nhất
+trong cùng nhân vật/khu vực với 50% HP, giữ thế giới hiện tại, không tải
+save. Đồ mang theo, kể cả key item, nằm trong đống đồ có dấu tại chỗ chết.
+Quay lại trong <strong>2 m</strong>, nhấn <strong>F7</strong> để lấy; túi đầy thì đồ dư vẫn ở đó.</p>
+<p>Sau Continue cần save thủ công thành công trước khi thoát nếu muốn có
+slot tiếp tục lần sau. Hạn mức, mực hỏng và cấm autosave vẫn áp dụng.
+Đọc <a href="FEATURES.html#ch%E1%BA%BF-%C4%91%E1%BB%99-m%E1%BB%99t-m%E1%BA%A1ng">luật và giới hạn Một mạng</a> trước khi bật.</p>
+<h2 id="cấu-hình-và-dữ-liệu-run">Cấu hình và dữ liệu run</h2>
+<p>Đóng game trước khi sửa <code>reframework/data/project_requiem/config.json</code>.
+REFramework có thể ghi đè thay đổi nếu chỉnh trong lúc game đang chạy.
+Danh sách khóa và khoảng giá trị: <a href="../CONFIGURATION.html">Configuration</a>.</p>
+<p>Dữ liệu phụ nằm trong <code>reframework/data/project_requiem/&lt;run_id&gt;.json</code>.
+Load save cũ không hoàn lại Stress, thể lực, năng lượng hoặc quota của
+run. New Game đặt lại lượt trong ID hiện tại. Dùng <code>run_id</code> khác để tách
+chiến dịch, ví dụ <code>grace-leon-02</code>.</p>
+<p>Ledger không lưu toàn bộ thế giới và không phải hệ thống chống gian lận.
+Xóa/sửa nó có thể vượt luật; crash có thể mất trạng thái chưa kịp ghi.</p>
+<h2 id="tương-thích-và-chẩn-đoán">Tương thích và chẩn đoán</h2>
+<p>Không chạy cùng mod sửa độ khó, vô hạn đạn/đồ/độ bền, no reload, rapid
+fire hoặc luồng save. Bộ cài giữ mod khác; điều này không chứng nhận
+tương thích với mọi phiên bản của các mod đó.</p>
+<p>Trong menu mod, chọn <strong>Xuất báo cáo tương thích / hoạt động</strong>. Báo cáo ở
+<code>reframework/data/project_requiem/status.json</code>; log chung nằm trong
+<code>re2_framework_log.txt</code>.</p>
+<ul>
+<li><code>installed</code>: hook đã gắn.</li>
+<li><code>calls</code>: game đã gọi hook.</li>
+<li><code>events</code>: luật đã tác động trên đường xử lý đó.</li>
+<li><code>missing</code> hoặc <code>error</code>: cơ chế cần được kiểm tra trước khi tin kết quả.</li>
+</ul>
+<p>Các bộ đếm không chứng minh kết quả hình ảnh hoặc gameplay. Xem
+<a href="TESTING.html">Kiểm thử</a> và <a href="../TROUBLESHOOTING.html">Troubleshooting</a>.</p>
+<h2 id="gỡ-mod">Gỡ mod</h2>
+<p>Đóng game và chạy bộ cài với cùng đường dẫn:</p>
+<pre><code class="language-powershell">powershell -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 `
+  -GamePath 'C:\Games\Resident Evil Requiem' -Uninstall
+</code></pre>
+<p>Bộ cài giữ cấu hình, ledger, file đã bị chỉnh sửa và mod khác. Có thể gỡ
+thủ công bằng cách xóa entrypoint <code>project_requiem.lua</code> cùng các file Lua
+trong <code>reframework/autorun/project_requiem/</code> và phông/giấy phép riêng
+trong <code>reframework/fonts/project_requiem/</code>. Giữ DLL REFramework nếu vẫn
+dùng các mod khác.</p>
+<h2 id="tài-liệu-và-giấy-phép">Tài liệu và giấy phép</h2>
+<ul>
+<li><a href="FEATURES.html">Tính năng</a>: thông số mặc định và giới hạn.</li>
+<li><a href="TESTING.html">Kiểm thử</a>: bằng chứng và ma trận xác minh tương lai.</li>
+<li><a href="../CHANGELOG.html">Changelog</a>: thay đổi theo phiên bản.</li>
+<li><a href="../SOURCES.html">Sources</a>: nguồn API và chữ ký tham khảo.</li>
+</ul>
+<p>Mã nguồn dùng giấy phép MIT. Phông Noto Sans đi kèm dùng giấy phép OFL
+riêng và chỉ áp dụng cho giao diện mod.</p>
+<p>Giấy phép, bản quyền và nguồn của các thành phần được ghi trong
+<a href="../LICENSE.html">LICENSE.md</a>, gồm cả công cụ phát triển và nguồn tham khảo.</p>
+</article>
+    <hr>
+    <p><a href="../../index.html">← Về Project Requiem</a></p>
+  </main>
+</body>
+</html>

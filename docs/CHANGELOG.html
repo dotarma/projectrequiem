@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fafafa">
+  <meta name="description" content="Changelog — Project Requiem documentation.">
+  <title>Changelog — Project Requiem</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="nav-shell">
+    <a class="wordmark" href="../index.html">Project Requiem</a>
+    <nav class="nav-actions" aria-label="Documentation language">
+      <a class="text-link" href="README.html" lang="en" aria-current="true">EN</a>
+      <a class="text-link" href="vi/README.html" lang="vi">Tiếng Việt</a>
+      <a class="button secondary" href="../index.html">Back to site ↗</a>
+    </nav>
+  </div></header>
+  <main class="documentation" id="main">
+    <p class="eyebrow">PROJECT REQUIEM / DOCUMENTATION</p>
+    <nav aria-label="Documentation navigation"><p><a href="README.html">Overview</a> &nbsp;·&nbsp; <a href="FEATURES.html">Features</a> &nbsp;·&nbsp; <a href="INSTALLATION.html">Installation</a> &nbsp;·&nbsp; <a href="CONFIGURATION.html">Configuration</a> &nbsp;·&nbsp; <a href="TROUBLESHOOTING.html">Troubleshooting</a> &nbsp;·&nbsp; <a href="TESTING.html">Testing</a> &nbsp;·&nbsp; <a href="SOURCES.html">Sources</a> &nbsp;·&nbsp; <a href="CHANGELOG.html">Changelog</a> &nbsp;·&nbsp; <a href="LICENSE.html">Licenses</a></p></nav>
+    <article><h1 id="changelog">Changelog</h1>
+<h2 id="030-pre5--language-selector-hotfix">0.3.0-pre.5 — Language selector hotfix</h2>
+<ul>
+<li>Fix English/Vietnamese switching by using the one-based keys of the Lua
+options table returned by REFramework's combo binding. Ignore unexpected
+selection keys; English remains the default.</li>
+<li>Save the choice immediately and restore it on script reload without
+resetting resources, death status or the One Life attempt.</li>
+<li>Correct the UI mock to reproduce table-key selection and first-key fallback.
+Add a saved-Vietnamese reload regression: 121 Lua checks and nine installer
+scenarios pass. Native UI verification remains pending.</li>
+</ul>
+<h2 id="030-pre4--exhaustion-panic-and-light-recovery-fixes">0.3.0-pre.4 — Exhaustion, panic and light recovery fixes</h2>
+<ul>
+<li>Replace ineffective exhaustion translation scaling with post-input sprint
+cancellation, forced walk requests and reversible locomotion playback
+scaling. Restore locomotion speed before reload scaling.</li>
+<li>Recognize the active Grace/Leon kind IDs even when native character flags
+are absent. Add bounded camera sway and a stronger haze/tunnel overlay at
+Stress 100, independent of the native sick-state getters.</li>
+<li>Move physical panic deviation from the cached firing target to finalized
+projectile requests or shell rotations. Avoid double deviation and restore
+temporary argument buffers.</li>
+<li>Remove repeated external light-off requests and zero-intensity overrides
+that could leave lights locked or dark after recovery. Preserve
+controller-written renderer states for release.</li>
+<li>Persist each depleted-light recharge latch. Show current energy versus the
+15% unlock threshold and notify when switching on becomes available.</li>
+<li>Add regression checks for native sprint rewrites, reload transitions,
+recalculated shot targets, camera drift/restoration, Grace/Leon eligibility
+and repeated depletion/recharge cycles for both lights. These fixes are
+automated-tested; native gameplay verification remains pending.</li>
+</ul>
+<h2 id="030-pre3--one-life-easy">0.3.0-pre.3 — One Life (Easy)</h2>
+<ul>
+<li>Keep Strict One Life and add a separate <strong>Enable One Life (Easy)</strong> action
+with a current-inventory preflight on the game update thread.</li>
+<li>Intercept supported lethal HP hits and current-player <code>forceDead</code> calls.
+<strong>F6 / Continue (Easy)</strong> resumes the live world at the last calm point in
+the same player/area, with 50% HP and unchanged mod resources/quota, without
+loading a game save.</li>
+<li>Transfer carried panels and archive items to a positional, marked death
+cache. Use native deployed item data to preserve stock, loaded rounds and
+attachment fields; persist owned data trees without engine pointers.</li>
+<li><strong>F7 / Recover</strong> within 2 m returns items using native inventory capacity
+checks. Keep overflow in the cache, avoid duplicating attached panels, and
+preserve items acquired after Continue.</li>
+<li>Journal transfers/pickups, roll back failed mutations where the engine
+permits, and reconcile interrupted operations. Block earlier manual-slot
+resume after an Easy death and mode changes with outstanding loot.</li>
+<li>Add English/Vietnamese controls, diagnostics and documentation. Native
+scripted deaths, serialization of every item, warp/animation behavior and
+full-campaign recovery remain unverified; this is an experimental
+pre-release.</li>
+</ul>
+<h2 id="030-pre2--stamina-and-one-life">0.3.0-pre.2 — Stamina and One Life</h2>
+<ul>
+<li>Add a persistent 0–100 Stamina Meter for the active Grace/Leon player.
+Sprint drains 16/second; recovery waits 2 seconds, then restores 12/second
+at rest or 6 while moving.</li>
+<li>Empty stamina blocks sprint and reduces locomotion translation to 60%
+walking / 40% run transitions. Exhaustion remains until 25 stamina. Pauses,
+loading, cutscenes and long stalls keep the existing live-time guards.</li>
+<li>Add an English/Vietnamese <strong>Enable One Life</strong> menu button, off by default. A
+living attempt can opt out; a dead attempt cannot be revived through the
+button, general mod toggle, script reset or old save load.</li>
+<li>Persist death immediately. Gate gameplay loads by the current attempt's
+successful manual-save slots; preserve system/profile loads. Native New Game
+setup starts a fresh attempt and revokes previous-attempt resume slots.</li>
+<li>Guard movement, firing, saving and game-over requests for a locked in-memory
+respawn. Native save files are retained.</li>
+<li>Extend the HUD, configuration, reports, installer and English/Vietnamese
+documentation. New features remain unverified in native gameplay; keep
+pre-release status.</li>
+</ul>
+<h2 id="030-pre1--project-requiem-03-pre-release">0.3.0-pre.1 — Project Requiem 0.3 pre-release</h2>
+<ul>
+<li>Rename the product, entrypoint, Lua namespace, font/data folders, logs and
+release archive to <strong>Project Requiem</strong>.</li>
+<li>Add complete <strong>English and Vietnamese</strong> UI catalogs. English is the default
+for fresh/legacy configs without a language setting; menu selection updates
+the interface immediately and persists.</li>
+<li>Preserve Vietnamese diacritics with the bundled Noto Sans font. Keep engine
+IDs, config keys and diagnostic events stable.</li>
+<li>Add English-first README, installation/upgrade/removal, feature,
+configuration, troubleshooting, testing and source/license documentation.
+Keep Vietnamese documentation under <code>docs/vi/</code>.</li>
+<li>Upgrade from Khúc Cầu Hồn / Requiem and ULTRADEAD with ownership checks,
+relative-path backups, ledger migration and removal of recognized old
+entrypoints. Retain original legacy data and existing Project Requiem
+preferences.</li>
+<li>Add localization and entrypoint/UI migration checks alongside the existing
+survival rules/API tests. Build a release ZIP with file manifest and a
+separate SHA-256 checksum.</li>
+<li>Carry forward the 0.2.2 gameplay preset. No claim of new native or
+full-campaign validation is made; this release is a <strong>pre-release</strong>.</li>
+</ul>
+<h2 id="earlier-releases">Earlier releases</h2>
+<ul>
+<li><strong>0.2.2:</strong> accented Vietnamese HUD/menu/toasts and bundled font.</li>
+<li><strong>0.2.1:</strong> expanded dormant/Licker threat scanning, Stress 100 panic, target
+deviation and visual/native-effect paths.</li>
+<li><strong>0.2.0:</strong> layered jam gates, depleted-light emitter shutoff, finite
+knife/axe bonus enforcement and forbidden gameplay autosaves.</li>
+<li><strong>0.1.0:</strong> initial survival rules, Stress, scarcity, finite resources and
+restricted manual saving, released as ULTRADEAD.</li>
+</ul>
+</article>
+    <hr>
+    <p><a href="../index.html">← Back to Project Requiem</a></p>
+  </main>
+</body>
+</html>

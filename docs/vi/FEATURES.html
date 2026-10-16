@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fafafa">
+  <meta name="description" content="Tính năng Project Requiem — Project Requiem documentation.">
+  <title>Tính năng Project Requiem — Project Requiem</title>
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Đến nội dung</a>
+  <header class="site-header"><div class="nav-shell">
+    <a class="wordmark" href="../../index.html">Project Requiem</a>
+    <nav class="nav-actions" aria-label="Ngôn ngữ tài liệu">
+      <a class="text-link" href="../README.html" lang="en">EN</a>
+      <a class="text-link" href="README.html" lang="vi" aria-current="true">Tiếng Việt</a>
+      <a class="button secondary" href="../../index.html">Trang chủ ↗</a>
+    </nav>
+  </div></header>
+  <main class="documentation" id="main">
+    <p class="eyebrow">PROJECT REQUIEM / TÀI LIỆU</p>
+    <nav aria-label="Điều hướng tài liệu"><p><a href="README.html">Hướng dẫn</a> &nbsp;·&nbsp; <a href="FEATURES.html">Tính năng</a> &nbsp;·&nbsp; <a href="TESTING.html">Kiểm thử</a> &nbsp;·&nbsp; <a href="../CONFIGURATION.html">Cấu hình (EN)</a> &nbsp;·&nbsp; <a href="../TROUBLESHOOTING.html">Khắc phục lỗi (EN)</a> &nbsp;·&nbsp; <a href="../LICENSE.html">Giấy phép</a></p></nav>
+    <article><h1 id="tính-năng-project-requiem">Tính năng Project Requiem</h1>
+<p>Phiên bản <strong>0.3.0-pre.5</strong>, cập nhật <strong>16/10/2026</strong>. Nền tảng:
+<strong>Resident Evil Requiem PC + REFramework</strong>.</p>
+<p>Các giá trị dưới đây là mặc định trong mã nguồn và cấu hình đi kèm.
+Preset nhân thêm độ khó đang chọn, hướng tới một lượt Insanity/Madness
+mới; mod không tự chuyển độ khó của game.</p>
+<p><strong>Tiếng Anh là mặc định.</strong> Chọn <strong>Language → Tiếng Việt</strong> trong menu
+Project Requiem để dùng tiếng Việt có dấu. Tài liệu mặc định:
+<a href="../FEATURES.html">Features</a>.</p>
+<p><strong>Phạm vi kiểm chứng:</strong> 121 kiểm tra Lua và chín tình huống bộ cài đã qua.
+Các bản sửa thể lực, choáng, lệch đạn, hồi đèn và ngôn ngữ chưa được xác
+minh lại trong game. One Life, chu trình Easy và toàn chiến dịch vẫn cần
+xác minh trực tiếp. Chi tiết bằng chứng: <a href="TESTING.html">Kiểm thử</a>.</p>
+<h2 id="quái-trâu-và-nguy-hiểm-hơn">Quái trâu và nguy hiểm hơn</h2>
+<table>
+<thead>
+<tr>
+<th>Cơ chế</th>
+<th>Mặc định</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sức chịu đòn tương đương</td>
+<td>×1,80</td>
+</tr>
+<tr>
+<td>Sát thương lên người chơi</td>
+<td>×1,45</td>
+</tr>
+<tr>
+<td>Stress tăng sát thương nhận vào</td>
+<td>Tối đa thêm 15%</td>
+</tr>
+<tr>
+<td>Tốc độ quái</td>
+<td>×1,10, hook thử nghiệm</td>
+</tr>
+<tr>
+<td>Stagger nhận vào</td>
+<td>×0,65, hook thử nghiệm</td>
+</tr>
+</tbody>
+</table>
+<p>Độ trâu được tạo bằng cách giảm sát thương vào HP của quái đã nhận diện.
+Mod không sửa HP gốc hoặc trực tiếp đổi ngưỡng chuyển phase boss. Melee,
+chất nổ và môi trường cũng có thể bị ảnh hưởng nếu đi qua cùng hàm HP.
+Không thêm loại quái hay AI mới.</p>
+<p>Ở Stress 100, sát thương nhận vào đạt ×1,6675. Hai hook rank tốc độ và
+stagger có thể không tác động nếu game inline hàm; chưa có bằng chứng
+trực tiếp xác nhận kết quả trên mọi loại quái.</p>
+<h2 id="vũ-khí-yếu-hơn-bắn-và-nạp-chậm-hơn">Vũ khí yếu hơn, bắn và nạp chậm hơn</h2>
+<table>
+<thead>
+<tr>
+<th>Cơ chế</th>
+<th>Mặc định</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sát thương người chơi</td>
+<td>×0,70</td>
+</tr>
+<tr>
+<td>Giãn cách tối thiểu giữa hai phát</td>
+<td>×1,35</td>
+</tr>
+<tr>
+<td>Thời gian animation nạp đạn</td>
+<td>×1,50</td>
+</tr>
+<tr>
+<td>Stress tăng giãn cách giữa các phát</td>
+<td>Tối đa thêm 30%</td>
+</tr>
+<tr>
+<td>Stress tăng thời gian nạp</td>
+<td>Tối đa thêm 25%</td>
+</tr>
+</tbody>
+</table>
+<p>Sát thương ×0,70 kết hợp sức chịu đòn ×1,80 còn khoảng <strong>38,9%</strong> so với
+cùng độ khó trước mod, trước sai số làm tròn HP. Ở Stress 100,
+giãn cách giữa các phát đạt ×1,755 và thời gian nạp đạt ×1,875.</p>
+<p>Giãn cách dựa trên thông số gốc đọc được. Nếu chưa đọc được, dùng nền
+<strong>0,25 giây</strong> rồi áp hệ số. Animation nạp chậm bằng tốc độ chuyển
+động, giữ luồng sự kiện nạp của game. Hệ số không nhân chồng mỗi frame;
+khôi phục khi hết nạp hoặc tắt mod. Từng súng/animation vẫn cần xác minh.</p>
+<h2 id="ép-tắt-vô-hạn-đạn-và-độ-bền">Ép tắt vô hạn đạn và độ bền</h2>
+<ul>
+<li>Tắt bonus vô hạn đạn súng và rocket launcher tích hợp của game.</li>
+<li>Tắt bonus vô hạn độ bền dùng chung cho dao/rìu.</li>
+<li>Tắt cờ vô hạn/không tiêu hao trên panel vũ khí đang trang bị có loader,
+gồm đường xử lý độ bền liên quan.</li>
+<li>Kết hợp chặn getter và ép cờ boolean để tác động cả đường đọc field.</li>
+</ul>
+<p>Khi tắt/reset script, mod khôi phục giá trị đã quản lý nếu đối tượng còn
+hợp lệ và giá trị chưa bị thay bởi thành phần khác. Không bảo đảm cưỡng
+chế được mọi trainer hoặc mod sửa trực tiếp hàm tiêu hao.</p>
+<h2 id="vật-phẩm-hồi-máu-khan-hiếm-và-kém-hiệu-quả">Vật phẩm hồi máu khan hiếm và kém hiệu quả</h2>
+<table>
+<thead>
+<tr>
+<th>Cơ chế</th>
+<th>Mặc định</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Giữ đồ hồi máu ngoài thế giới</td>
+<td>Khoảng 40% vị trí spawn đã nhận diện</td>
+</tr>
+<tr>
+<td>Hồi máu ở Stress 0</td>
+<td>45% lượng hồi gốc</td>
+</tr>
+<tr>
+<td>Hồi máu ở Stress 100</td>
+<td>33,75% lượng hồi gốc</td>
+</tr>
+<tr>
+<td>Giữ mực ngoài thế giới</td>
+<td>Khoảng 45% vị trí ribbon đã nhận diện</td>
+</tr>
+</tbody>
+</table>
+<p>Quyết định giữ/ẩn cố định theo <code>seed</code>, <code>run_id</code>, ID và vị trí nhận diện.
+Quay lại hoặc load cùng khu vực không roll lại nếu cùng cấu hình. Tỉ lệ
+là trên nhiều vị trí, không bảo đảm mỗi phòng giữ đúng 40% hoặc 45% đồ.
+Nếu thiếu định danh/vị trí ổn định, mod giữ vật phẩm.</p>
+<p>Chỉ áp dụng cho đồ ngoài thế giới trong danh sách ID đã biết. Key item,
+đồ nhiệm vụ và ID ngoài danh sách hồi máu/mực được giữ. Không áp lại khan
+hiếm khi chuyển đồ giữa túi/hòm, craft, mua hoặc khôi phục inventory.</p>
+<p>Giảm hồi máu chỉ áp dụng cho vật phẩm của người chơi hiện tại, không
+giảm HP tối đa. Nếu game gọi lồng hai hàm hồi máu, chỉ giảm một lần.</p>
+<h2 id="stress-meter">Stress Meter</h2>
+<p>Thanh <strong>Stress từ 0 đến 100</strong> thể hiện mức căng thẳng. Các nguồn tăng có
+thể cộng dồn; khi không có nguồn tăng liên tục, Stress giảm dần.</p>
+<h3 id="nguồn-tăng-và-giảm">Nguồn tăng và giảm</h3>
+<table>
+<thead>
+<tr>
+<th>Tình huống</th>
+<th>Mặc định</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quái sống đang hiện diện trong 12 m</td>
+<td>+1,8/giây</td>
+</tr>
+<tr>
+<td>HP dưới 30% tối đa</td>
+<td>+0,9/giây</td>
+</tr>
+<tr>
+<td>Quái gần và đèn đã nhận diện đang tắt</td>
+<td>Thêm +0,35/giây</td>
+</tr>
+<tr>
+<td>Bị đánh</td>
+<td>+8, thêm tối đa 15 theo phần HP mất</td>
+</tr>
+<tr>
+<td>Một phát bắn được ghi nhận</td>
+<td>+0,7</td>
+</tr>
+<tr>
+<td>Không có nguồn tăng liên tục</td>
+<td>−0,65/giây</td>
+</tr>
+</tbody>
+</table>
+<p>Quái trong phạm vi gồm Licker ngủ/đợi phục kích vẫn hiện diện. Bộ quét
+dùng nhiều danh sách enemy/context, bỏ trùng và ưu tiên vị trí transform
+thực tế, kể cả quái trên tường/trần. Context bị suspend vẫn có thể được
+tính nếu còn sống và hiện diện.</p>
+<p>Xác chết, object đã tắt, context despawn không có object và vị trí không
+đọc được bị loại. Báo cáo ghi nguồn quét và số context thiếu vị trí. Quét
+bắt đầu khi có người chơi rồi cập nhật khoảng <strong>0,25 giây</strong>. HUD hiện
+quái gần nhất trong vùng, khoảng cách và mức Stress tăng do ở gần.</p>
+<p>Điều kiện đèn chỉ kiểm tra nguồn sáng người chơi đã nhận diện đang tắt;
+<strong>không đo độ tối hay ánh sáng thực tế của môi trường</strong>.</p>
+<h3 id="ảnh-hưởng-theo-mức-stress">Ảnh hưởng theo mức Stress</h3>
+<table>
+<thead>
+<tr>
+<th>Hiệu ứng</th>
+<th>Stress 0</th>
+<th>Stress 100</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sát thương nhận vào</td>
+<td>×1,45</td>
+<td>×1,6675</td>
+</tr>
+<tr>
+<td>Hiệu quả hồi máu</td>
+<td>45%</td>
+<td>33,75%</td>
+</tr>
+<tr>
+<td>Giãn cách giữa các phát</td>
+<td>×1,35</td>
+<td>×1,755</td>
+</tr>
+<tr>
+<td>Thời gian nạp</td>
+<td>×1,50</td>
+<td>×1,875</td>
+</tr>
+<tr>
+<td>Hồi độ chính xác qua reticle</td>
+<td>×1,00</td>
+<td>×0,45</td>
+</tr>
+<tr>
+<td>Kẹt khi nhiệt tối đa</td>
+<td>8%/phát</td>
+<td>16%/phát</td>
+</tr>
+<tr>
+<td>Thời gian gỡ kẹt</td>
+<td>3 giây</td>
+<td>4,5 giây</td>
+</tr>
+</tbody>
+</table>
+<p>Hệ số thay đổi liên tục giữa hai đầu bảng. HUD đổi màu tại <strong>45</strong> và
+<strong>75</strong>, cảnh báo Stress cao từ 75 trở lên. Hoảng loạn chỉ bắt đầu ở 100.</p>
+<h3 id="hoảng-loạn-ở-stress-100">Hoảng loạn ở Stress 100</h3>
+<p>Áp dụng cho Grace/Leon đang điều khiển. Khi Stress đạt <strong>100</strong>, trạng
+thái được giữ tới <strong>90 hoặc thấp hơn</strong>, tránh bật/tắt quanh mốc 100.</p>
+<ul>
+<li>Ép tâm ngắm mất hội tụ, hạ điểm ổn định về mức tối thiểu sau game update.</li>
+<li>Làm lệch trường hướng hợp lệ trong request tạo đạn theo nón <strong>2,5°</strong>,
+giữ độ dài vector. Nếu không có trường hướng, lệch pitch/yaw khoảng
+<strong>2,5°</strong> tại bước tạo shell. Không áp cả hai đường lên cùng một phát.</li>
+<li>Không phụ thuộc điểm ngắm cache có thể bị game tính lại khi tạo đạn.</li>
+<li>Camera rung/nghiêng tối đa <strong>0,6° pitch, 0,7° yaw, 1,5° roll</strong>. Góc
+được khôi phục trước gameplay update, khi hồi phục hoặc tắt/reset mod;
+không cộng dồn thành trôi camera.</li>
+<li>Lớp haze/tối viền co giãn chậm tạo cảm giác choáng, vẫn hiện khi ẩn HUD.
+Đây là overlay riêng, chưa phải bản sao postprocess của Leon.</li>
+<li>Nhận diện bằng mã Grace/Leon khi thiếu cờ nhân vật của game.</li>
+<li>Có hook fear/sick-state gốc. Sick-state chỉ bị ép nếu nhân vật có
+<code>SickSeizureConfiguration</code> hợp lệ; không ghép cấu hình/animation Leon
+sang Grace. Caller có thể inline hoặc không dùng các getter này.</li>
+</ul>
+<p>Hiệu ứng tạm ngưng khi pause/không có gameplay hợp lệ, dừng khi hồi phục
+hoặc tắt mod. Trạng thái hoảng loạn lưu cùng Stress trong ledger. Lệch
+đạn không dùng RNG của kẹt đạn/mực, nên cập nhật ngắm không đổi lượt roll.</p>
+<p>Kết quả đạn/camera và hình ảnh sick-state của từng nhân vật còn cần xác
+minh trong game. Không suy ra Grace choáng giống Leon từ việc hook đã gắn.</p>
+<h2 id="nhiệt-súng-và-kẹt-đạn">Nhiệt súng và kẹt đạn</h2>
+<table>
+<thead>
+<tr>
+<th>Cơ chế</th>
+<th>Mặc định</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nhiệt mỗi phát được ghi nhận</td>
+<td>+0,18, tối đa 1,00</td>
+</tr>
+<tr>
+<td>Nguội mỗi giây chơi</td>
+<td>−0,14</td>
+</tr>
+<tr>
+<td>Ngưỡng bắt đầu roll kẹt</td>
+<td>0,40 nhiệt</td>
+</tr>
+<tr>
+<td>Xác suất tối đa</td>
+<td>16%/phát ở nhiệt 1,00 và Stress 100</td>
+</tr>
+<tr>
+<td>Thời gian gỡ kẹt</td>
+<td>3–4,5 giây tùy Stress</td>
+</tr>
+<tr>
+<td>Nhiệt sau gỡ</td>
+<td>0,20</td>
+</tr>
+</tbody>
+</table>
+<p>Xác suất mỗi phát đủ ngưỡng là:</p>
+<pre><code class="language-text">0,16 × nhiệt × (0,5 + 0,5 × Stress / 100)
+</code></pre>
+<p>Súng nguội không roll kẹt. Roll theo sự kiện phát bắn đã ghi nhận, không
+theo frame hoặc mỗi lần giữ nút. Khi đã kẹt, mod chặn bắn, tạo projectile
+và tiêu hao đạn của các phát tiếp theo. Sự kiện đến trễ không tạo phát
+bắn ảo hoặc roll lại.</p>
+<p>Nhấn <strong>Reload</strong> theo phím/nút tay cầm đã gán, hoặc <strong>R</strong> dự phòng, rồi
+chờ gỡ. Có đường bắt input khi băng đầy. Đổi súng không tự gỡ kẹt.</p>
+<p>Nhiệt/kẹt được theo dõi riêng theo nhân vật và súng trong phiên Lua;
+không lưu ledger. Reset script, khởi động lại hoặc loading mất context
+sẽ xóa chúng. Tổng bộ đếm phát bắn/kẹt vẫn được lưu theo run.</p>
+<h2 id="thể-lực">Thể lực</h2>
+<table>
+<thead>
+<tr>
+<th>Cơ chế</th>
+<th>Mặc định</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dung lượng</td>
+<td>100 điểm</td>
+</tr>
+<tr>
+<td>Chạy tiêu hao</td>
+<td>16/giây, khoảng 6,25 giây từ đầy</td>
+</tr>
+<tr>
+<td>Chờ sau khi dừng chạy</td>
+<td>2 giây</td>
+</tr>
+<tr>
+<td>Hồi khi nghỉ</td>
+<td>12/giây</td>
+</tr>
+<tr>
+<td>Hồi khi di chuyển</td>
+<td>6/giây</td>
+</tr>
+<tr>
+<td>Hết kiệt sức</td>
+<td>Hồi đủ 25 điểm</td>
+</tr>
+<tr>
+<td>Tốc độ phát lớp chuyển động đi bộ khi kiệt sức</td>
+<td>60%</td>
+</tr>
+<tr>
+<td>Tốc độ phát lớp chuyển động chuyển tiếp chạy</td>
+<td>40%</td>
+</tr>
+</tbody>
+</table>
+<p>Đi bộ không tốn thể lực. Cạn sẽ hủy sprint, ép đi bộ sau xử lý input và
+giảm tốc lớp chuyển động. Giữ nút chạy khi kiệt sức vẫn hồi được.
+Các hệ số là tốc độ phát chuyển động; chưa đo vận tốc thực tế trong game.</p>
+<p>Hệ số không cộng dồn, được khôi phục khi hồi đủ hoặc chuyển sang nạp.
+Không làm chậm camera hay thời gian toàn game. Thao tác địa hình, phản
+ứng trúng đòn, lái xe và nạp đạn được loại khỏi giảm tốc do kiệt sức.
+Thể lực, kiệt sức và chờ hồi lưu trong ledger; pause/loading không tiến.</p>
+<h2 id="chế-độ-một-mạng">Chế độ Một mạng</h2>
+<p><strong>One Life mặc định tắt</strong>, chính sách mặc định là <strong>Strict</strong>. Menu có nút
+bật Strict và Easy riêng. Ledger đã bật từ bản cũ nhưng thiếu chính sách
+vẫn dùng Strict; chỉ sửa config không chuyển một lượt đã bật sang Easy.</p>
+<p>Cả hai chế độ giữ luật save/quota/mực và cấm autosave. Nếu bật giữa chiến
+dịch, cần save thủ công thành công mới trước khi thoát để có slot tiếp tục.</p>
+<h3 id="one-life-strict">One Life Strict</h3>
+<p>Bật bằng <strong>Enable One Life / Bật chế độ Một mạng</strong>. Có thể tắt qua menu
+khi còn sống. Chết sẽ khóa lượt và ghi trạng thái ngay.</p>
+<ul>
+<li>Continue/Load không hồi sinh được lượt đã chết. Reset script, khởi
+động lại hoặc tắt checkbox mod chung không mở khóa.</li>
+<li>Khi sống, chỉ tải slot thủ công đã lưu thành công trong lượt hiện tại.
+Autosave, slot cũ/chưa xác định bị chặn; system/profile được nhận diện
+vẫn tải được.</li>
+<li>Thông báo lượt kết thúc vẫn hiện khi ẩn HUD. Nếu checkpoint trong RAM
+hồi sinh nhân vật, mod yêu cầu game over và chặn đường di chuyển/bắn
+đã nhận diện.</li>
+<li>Thực sự bắt đầu <strong>New Game</strong> mới đặt lại lượt và tăng số lần thử. Chỉ
+mở rồi hủy New Game không mở khóa.</li>
+<li>New Game đặt lại tài nguyên, Stress, thể lực, quota/cooldown, RNG/mực và
+slot được tải. Slot lượt trước bị chặn tới khi lượt mới ghi thành công
+chính slot đó.</li>
+</ul>
+<p>File save gốc được giữ, không bị xóa hoặc làm hỏng. Thứ tự tử vong,
+New Game, kiểu dữ liệu slot và mọi checkpoint chưa được xác minh đầy đủ.</p>
+<h3 id="one-life-easy">One Life Easy</h3>
+<p>Bật <strong>Enable One Life (Easy) / Bật One Life (Easy)</strong> tại vùng yên ổn.
+Mod kiểm tra chuyển đổi toàn bộ dữ liệu inventory hiện tại trước khi
+bật. Dữ liệu chưa hỗ trợ sẽ khiến việc bật bị từ chối, giữ nguyên đồ.</p>
+<p>Đòn chí mạng qua đường HP/force-death được hỗ trợ bị chặn tử vong gốc,
+hiện gục. <strong>F6 / Continue (Easy)</strong> đưa tới điểm yên ổn đã ghi gần nhất
+cho cùng nhân vật/khu vực, hồi <strong>50% HP</strong>. Không tải save hoặc tua lại
+thế giới. Stress, thể lực, năng lượng, quota và cooldown giữ nguyên.
+Trong lúc gục, thế giới có thể tiếp tục nhưng đồng hồ tài nguyên mod dừng.</p>
+<h4 id="đồ-rớt-và-thu-hồi">Đồ rớt và thu hồi</h4>
+<ul>
+<li>Mọi panel mang theo và đồ archive trong inventory, <strong>kể cả key item</strong>,
+chuyển vào đống đồ tại vị trí chết.</li>
+<li>Dữ liệu deploy giữ số lượng, đạn đang nạp và phụ kiện. Panel phụ kiện
+đã gắn không được gửi thêm lần nữa thành bản rời.</li>
+<li>Đống đồ có marker và khoảng cách trong thế giới, không spawn model đồ
+rời. Đồ trong hòm, file inventory và tiền ví riêng không thuộc phạm vi
+inventory mang theo được chuyển.</li>
+<li>Quay lại trong <strong>2 m</strong>, đúng nhân vật/khu vực, nhấn <strong>F7</strong> hoặc nút nhặt
+trong menu. Túi đầy thì đồ dư vẫn ở đó; đồ nhặt mới sau Continue được giữ.</li>
+<li>Chết tiếp không xóa đống chưa nhặt. Tối đa <strong>128 đống còn đồ</strong>.</li>
+<li>Phải thu hồi hết đồ và giải quyết trạng thái gục trước khi đổi/tắt chế
+độ qua menu. New Game đặt lại lượt và danh sách đống đồ.</li>
+</ul>
+<h4 id="giao-dịch-và-lưu-tiến-độ">Giao dịch và lưu tiến độ</h4>
+<p>Nhật ký được ghi trước khi xóa inventory. Snapshot gốc cho phép khôi
+phục nếu lỗi xóa/lưu và API còn hoạt động. Nhặt đồ kiểm tra sức chứa,
+ghi nhật ký và xác nhận đủ số lượng tăng trước khi đánh dấu đã nhận.</p>
+<p>Dữ liệu vòng lặp, quá lớn, chưa hỗ trợ hoặc claim bị gián đoạn mơ hồ sẽ
+bị chặn. Nếu khôi phục thất bại, bản ghi đồ/lỗi được giữ để đối soát thay
+vì bỏ đồ âm thầm. Đây là bảo vệ cục bộ, không bảo đảm giao dịch nguyên
+tử chống crash giữa bộ nhớ game và JSON.</p>
+<p>Continue chỉ dùng trong <strong>phiên game hiện tại</strong>. Ledger không lưu cả thế
+giới. Chết hủy quyền tải slot trước đó để hạn chế nhân đồ; sau Continue
+cần save thủ công thành công trước khi thoát nếu muốn tiếp tục lần sau.
+Nhật ký gục/cache tồn tại qua reset Lua nhưng không thay thế save game.</p>
+<h4 id="giới-hạn-chưa-kiểm-chứng">Giới hạn chưa kiểm chứng</h4>
+<p>Chưa quan sát chu trình inventory/chuyển đổi/di chuyển/nhặt hoàn chỉnh
+trong game. Xử tử, ngã, cutscene hoặc đường chết vượt guard có thể gây
+tử vong gốc không đảo ngược và kết thúc lượt.</p>
+<p>Điểm yên ổn không phải checkpoint hoặc vị trí navmesh đã được game xác
+nhận. Đường một chiều, streaming, chuyển nhân vật và tiến độ cốt truyện
+có thể khiến vị trí hồi sinh/đống đồ khó tới hoặc không còn tới được.</p>
+<h2 id="đèn-pin-và-bật-lửa">Đèn pin và bật lửa</h2>
+<table>
+<thead>
+<tr>
+<th>Nguồn</th>
+<th>Dung lượng</th>
+<th>Ngưỡng bật lại sau cạn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Đèn pin / BodyLight</td>
+<td>180 giây</td>
+<td>27 giây năng lượng, 15%</td>
+</tr>
+<tr>
+<td>Bật lửa</td>
+<td>90 giây</td>
+<td>13,5 giây năng lượng, 15%</td>
+</tr>
+</tbody>
+</table>
+<p>Hai nguồn dùng năng lượng riêng. Khi tắt, mỗi nguồn hồi <strong>0,15 giây năng
+lượng mỗi giây gameplay</strong>, tới dung lượng tối đa. Từ cạn tới ngưỡng cần
+khoảng <strong>180 giây chơi</strong> với đèn pin hoặc <strong>90 giây chơi</strong> với bật lửa.</p>
+<p>Cạn sẽ khóa sử dụng và ép cờ bật/hiển thị nguồn sáng người chơi sau game
+update. Không gửi lệnh tắt ngoài lặp lại hoặc ép cường độ về 0. Các ghi
+mới của controller được giữ để khôi phục khi bỏ khóa/tắt mod; sau đó
+người chơi bật đèn bằng thao tác bình thường.</p>
+<p>HUD hiện năng lượng/ngưỡng khi chờ hồi và báo lúc sẵn sàng. Năng lượng
+dương nhưng dưới 15% vẫn bị khóa. Trạng thái chờ hồi tồn tại qua reset
+và khởi động lại. Ledger cũ dưới ngưỡng chuyển sang chờ hồi, giữ năng lượng.</p>
+<p>Không thêm vật phẩm pin/nhiên liệu hoặc animation thay pin. Ánh sáng
+chung của màn chơi giữ nguyên. Kiểm thử emitter giả lập chưa chứng minh
+tất cả biến thể đèn tắt/bật đúng về mặt hình ảnh trong game.</p>
+<h2 id="túi-và-hòm-đồ-không-pause">Túi và hòm đồ không pause</h2>
+<p>Chặn yêu cầu pause đã nhận diện của balo Grace, inventory Leon, item box
+và tab/nền/mô tả/crafting trong luồng inventory. Quái và thời gian chơi
+có thể tiếp tục khi quản lý đồ. Esc, loading và cutscene giữ pause gốc.
+Một số dialog con hoặc cảnh đặc biệt có thể dùng đường pause khác.</p>
+<h2 id="autosave-và-save-thủ-công">Autosave và save thủ công</h2>
+<p><strong>Cấm ghi tiến độ tự động khi mod bật</strong>, không có công tắc autosave riêng.</p>
+<ul>
+<li>Chặn Auto và category gameplay tùy biến 6–9.</li>
+<li>Guard segment/slot chặn thêm đường ghi khác; slot Auto vẫn bị chặn
+ngay cả trong luồng gọi save thủ công.</li>
+<li>Request chưa phân loại và không có category hợp lệ bị từ chối.</li>
+<li>Save cấu hình/profile vẫn được phép, không tiêu quota thủ công.</li>
+</ul>
+<p>File autosave cũ được giữ. Chặn ghi không xóa checkpoint trong RAM.
+Phản ứng retry/checkpoint/chuyển chương chưa được xác minh toàn chiến dịch.</p>
+<h3 id="hạn-mức-thủ-công">Hạn mức thủ công</h3>
+<table>
+<thead>
+<tr>
+<th>Luật</th>
+<th>Mặc định</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Save thành công tối đa mỗi <code>run_id</code></td>
+<td>12</td>
+</tr>
+<tr>
+<td>Chờ sau lần thành công</td>
+<td>900 giây gameplay, 15 phút</td>
+</tr>
+<tr>
+<td>Save đầu của run mới</td>
+<td>Không có cooldown ban đầu</td>
+</tr>
+<tr>
+<td>Save thất bại</td>
+<td>Không tăng quota/cooldown thành công</td>
+</tr>
+</tbody>
+</table>
+<p>Request thủ công phải qua giao diện máy lưu của game và luật mod. Phần
+không yêu cầu ribbon vẫn chịu quota/cooldown. Chỉ callback ghi thành
+công của game mới tăng số save đã dùng.</p>
+<h3 id="mực-có-thể-hỏng">Mực có thể hỏng</h3>
+<p>Luồng vốn yêu cầu ribbon cần <strong>ribbon hữu hạn thật</strong>; bonus mực vô hạn
+không thay thế được. Mỗi giao dịch dùng mực hợp lệ có <strong>25% nguy cơ hỏng</strong>.</p>
+<p>Mực hỏng mất đúng <strong>một ribbon</strong>, chặn ghi, không hoàn mực và không tăng
+số save thành công. HUD báo <strong>MỰC BỊ HỎNG</strong>; game có thể hiện lỗi save gốc.
+Cùng giao dịch giữ kết quả roll, không roll lại khi kiểm tra nhiều lần.
+Bị chặn vì quota/cooldown vẫn giữ cơ chế hoàn mực bình thường của game.</p>
+<p>Hỏng mực áp dụng nơi game vốn cần ribbon, thường là Grace. Không thêm
+yêu cầu mực ở phần khác, không phá hoặc xóa save cũ để mô phỏng hỏng.</p>
+<h2 id="đồng-hồ-gameplay">Đồng hồ gameplay</h2>
+<p>Stress, thể lực, nhiệt/gỡ kẹt, đèn và cooldown dùng thời gian gameplay
+đã nhận diện, không dùng số frame hoặc thời gian ngồi ở menu.</p>
+<p>Bộ đếm dừng khi pause/loading, context không hợp lệ/chết/suspend,
+cutscene invalidation, mất focus/thu nhỏ nếu có API. Frame trên
+<strong>0,5 giây</strong> bị bỏ qua để tránh trừ tài nguyên hàng loạt khi đứng máy.
+Inventory thực sự không pause vẫn để các đồng hồ tiếp tục.</p>
+<h2 id="hud-và-ngôn-ngữ">HUD và ngôn ngữ</h2>
+<p>HUD hiện Stress, thể lực/kiệt sức, lượt Một mạng, năng lượng, quota,
+luật hữu hạn/cấm autosave, kẹt đạn/hoảng loạn và quái gần đã nhận diện.
+Vị trí mặc định <strong>(28, 80)</strong>, có thể sửa <code>hud_x</code>/<code>hud_y</code>.</p>
+<p>Menu có bật/tắt mod, HUD, One Life, Continue/nhặt Easy, chọn ngôn ngữ và
+xuất báo cáo. Ẩn HUD không tắt gameplay hoặc overlay hoảng loạn; thông
+báo lượt Một mạng chết vẫn hiện.</p>
+<p>English và Tiếng Việt bao phủ nhãn, nút và thông báo; thông báo đang chờ
+dùng ngôn ngữ hiện tại. Chọn ngôn ngữ lưu ngay, giữ sau reload, không
+reset run. Pre.5 dùng đúng khóa bảng Lua 1/2 của combo REFramework.</p>
+<p>Phông Noto Sans có dấu tiếng Việt chỉ áp dụng cho UI mod. ID engine,
+khóa JSON, tên file và event chẩn đoán giữ định danh kỹ thuật tiếng Anh.</p>
+<h2 id="dữ-liệu-run-và-cấu-hình">Dữ liệu run và cấu hình</h2>
+<p>Cấu hình: <code>reframework/data/project_requiem/config.json</code>. Ledger:
+<code>reframework/data/project_requiem/&lt;run_id&gt;.json</code>.</p>
+<p>Ledger lưu Stress/hoảng loạn, thể lực/kiệt sức/chờ hồi, đèn/trạng thái
+chờ hồi, thời gian, quota/cooldown, RNG/quyết định mực, Một mạng/lượt
+chết/slot được tải, cache/nhật ký Easy và bộ đếm tổng.</p>
+<p>Ghi phụ khoảng <strong>15 giây gameplay</strong>, khi save/config/reset/report liên
+quan; ghi ngay khi Một mạng chết/đổi chế độ/New Game/save thành công.
+Đây là dữ liệu phụ, không phải autosave tiến độ game. Crash hoặc lỗi
+đĩa có thể mất trạng thái chưa ghi.</p>
+<p>Ledger gắn với <code>run_id</code>. Load slot cũ không hoàn tài nguyên/quota. New
+Game tạo lượt mới trong ID hiện tại. ID khác tách chiến dịch. Sửa/xóa
+ledger có thể vượt luật; mod không phải chống gian lận.</p>
+<p>Config kiểm tra kiểu/khoảng giá trị, bỏ khóa chưa biết, giới hạn hoặc
+trả mặc định khi sai. Đóng game trước khi sửa. Danh sách đầy đủ khóa,
+mặc định và ngưỡng cố định: <a href="../CONFIGURATION.html">Configuration</a>.</p>
+<p>Cấm autosave, ép hữu hạn, bán kính 12 m, Stress 100/90, lệch 2,5° và
+ngưỡng đèn 15% không có công tắc JSON riêng. Tắt mod chung dừng luật
+thông thường; luật chết/tải của lượt Một mạng đã bật vẫn có hiệu lực.</p>
+<h2 id="chẩn-đoán-và-phân-phối">Chẩn đoán và phân phối</h2>
+<ul>
+<li>Có <strong>mười file Lua</strong> chạy qua REFramework. Reflection kiểm tra chữ ký
+TDB83, không dùng offset cố định; hook storage hỗ trợ gọi lồng theo luồng.</li>
+<li>Báo cáo <code>status.json</code> tự xuất sau 120 frame, mỗi 1.800 frame hoặc nút UI.</li>
+<li>Báo cáo gồm hook/lỗi/event, tài nguyên, di chuyển/thể lực/tốc độ motion,
+Một mạng/slot/cache, súng/kẹt, nhân vật/camera, field request đạn phản
+chiếu, cờ đèn/renderer, bonus, save bị chặn, quét quái và ngôn ngữ.</li>
+<li><code>installed</code> nghĩa hook đã gắn; <code>calls</code> là game gọi; <code>events</code> là đường
+luật đã chạy. Chúng không chứng minh kết quả gameplay hoặc hình ảnh.</li>
+<li>Log chung ở <code>re2_framework_log.txt</code>.</li>
+<li>Bộ cài sao lưu file sở hữu, chuyển tên cũ, giữ mod khác. Gỡ giữ dữ liệu
+và file đã chỉnh sửa. Gói không chứa DLL REFramework hoặc tài sản game.</li>
+<li>Mã MIT; phông Noto Sans có giấy phép OFL riêng.</li>
+</ul>
+<p>Không chạy cùng overhaul độ khó, vô hạn đạn/đồ/độ bền, no reload, rapid
+fire hoặc sửa save. Giữ mod khác trong cài đặt không chứng nhận mọi
+phiên bản của các mod đó tương thích.</p>
+<p>Xem <a href="README.html">Cài và dùng</a>, <a href="TESTING.html">Kiểm thử</a>,
+<a href="../CHANGELOG.html">Changelog</a> và <a href="../SOURCES.html">Sources</a>.</p>
+</article>
+    <hr>
+    <p><a href="../../index.html">← Về Project Requiem</a></p>
+  </main>
+</body>
+</html>

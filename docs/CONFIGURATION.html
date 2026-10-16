@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fafafa">
+  <meta name="description" content="Configuration — Project Requiem documentation.">
+  <title>Configuration — Project Requiem</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="nav-shell">
+    <a class="wordmark" href="../index.html">Project Requiem</a>
+    <nav class="nav-actions" aria-label="Documentation language">
+      <a class="text-link" href="README.html" lang="en" aria-current="true">EN</a>
+      <a class="text-link" href="vi/README.html" lang="vi">Tiếng Việt</a>
+      <a class="button secondary" href="../index.html">Back to site ↗</a>
+    </nav>
+  </div></header>
+  <main class="documentation" id="main">
+    <p class="eyebrow">PROJECT REQUIEM / DOCUMENTATION</p>
+    <nav aria-label="Documentation navigation"><p><a href="README.html">Overview</a> &nbsp;·&nbsp; <a href="FEATURES.html">Features</a> &nbsp;·&nbsp; <a href="INSTALLATION.html">Installation</a> &nbsp;·&nbsp; <a href="CONFIGURATION.html">Configuration</a> &nbsp;·&nbsp; <a href="TROUBLESHOOTING.html">Troubleshooting</a> &nbsp;·&nbsp; <a href="TESTING.html">Testing</a> &nbsp;·&nbsp; <a href="SOURCES.html">Sources</a> &nbsp;·&nbsp; <a href="CHANGELOG.html">Changelog</a> &nbsp;·&nbsp; <a href="LICENSE.html">Licenses</a></p></nav>
+    <article><h1 id="configuration">Configuration</h1>
+<p>Edit <code>reframework/data/project_requiem/config.json</code> with the game closed.
+The mod ignores unknown keys, checks types, clamps valid numbers to the
+ranges below and replaces invalid values with defaults. Seed and save-count
+values are rounded down to integers.</p>
+<h2 id="interface-and-run-identity">Interface and run identity</h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Accepted value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enabled</code></td>
+<td><code>true</code></td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td><code>&quot;en&quot;</code></td>
+<td><code>&quot;en&quot;</code> or <code>&quot;vi&quot;</code></td>
+</tr>
+<tr>
+<td><code>run_id</code></td>
+<td><code>&quot;run-1&quot;</code></td>
+<td>Up to 48 letters/digits/underscores/hyphens</td>
+</tr>
+<tr>
+<td><code>seed</code></td>
+<td><code>9142026</code></td>
+<td>Integer 1-2147483646</td>
+</tr>
+<tr>
+<td><code>hud</code></td>
+<td><code>true</code></td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td><code>hud_x</code></td>
+<td><code>28</code></td>
+<td>0-10000</td>
+</tr>
+<tr>
+<td><code>hud_y</code></td>
+<td><code>80</code></td>
+<td>0-10000</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>enabled</code> controls ordinary gameplay modifiers. Armed One Life death/load
+guards remain active when it is false.</li>
+<li><code>language</code> selects English or Vietnamese for the mod, not the game. English
+is the fresh/legacy fallback. Use the live menu to switch and save it
+immediately. The brand remains Project Requiem in both languages.</li>
+<li><code>run_id</code> identifies an independent ledger. Use separate IDs for separate
+campaigns; loading an older native slot does not refund the current ledger.</li>
+<li><code>seed</code> controls the isolated jam/ink RNG and stable location decisions.</li>
+<li><code>hud</code> hides status information without disabling gameplay or panic visuals.
+A dead One Life notice stays visible. <code>hud_x</code>/<code>hud_y</code> set screen coordinates.</li>
+</ul>
+<h2 id="enemies-weapons-and-healing">Enemies, weapons and healing</h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enemy_toughness</code></td>
+<td><code>1.8</code></td>
+<td>1-6</td>
+</tr>
+<tr>
+<td><code>enemy_attack</code></td>
+<td><code>1.45</code></td>
+<td>1-5</td>
+</tr>
+<tr>
+<td><code>enemy_speed</code></td>
+<td><code>1.1</code></td>
+<td>1-1.5</td>
+</tr>
+<tr>
+<td><code>enemy_stagger</code></td>
+<td><code>0.65</code></td>
+<td>0.1-1</td>
+</tr>
+<tr>
+<td><code>weapon_damage</code></td>
+<td><code>0.7</code></td>
+<td>0.1-1</td>
+</tr>
+<tr>
+<td><code>fire_delay</code></td>
+<td><code>1.35</code></td>
+<td>1-4</td>
+</tr>
+<tr>
+<td><code>reload_duration</code></td>
+<td><code>1.5</code></td>
+<td>1-4</td>
+</tr>
+<tr>
+<td><code>heal_effect</code></td>
+<td><code>0.45</code></td>
+<td>0.1-1</td>
+</tr>
+<tr>
+<td><code>healing_keep_chance</code></td>
+<td><code>0.4</code></td>
+<td>0-1</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>enemy_toughness</code> divides damage into registered enemies, rather than
+changing maximum HP. <code>weapon_damage</code> multiplies the same incoming damage.
+Together the defaults retain about 38.9% before rounding.</li>
+<li><code>enemy_attack</code> multiplies damage received by the player before Stress.</li>
+<li><code>enemy_speed</code> and <code>enemy_stagger</code> use experimental rank movement/wince
+getters. Native calls or visible effects are not guaranteed for every enemy.</li>
+<li><code>fire_delay</code> multiplies the minimum shot interval; <code>reload_duration</code>
+multiplies reload animation duration. Stress can increase both further.</li>
+<li><code>heal_effect</code> is the fraction of item healing retained before Stress.</li>
+<li><code>healing_keep_chance</code> is the retained fraction of recognized world healing
+pickups. It does not filter inventory transfers or key/story items.</li>
+</ul>
+<h2 id="stress">Stress</h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stress_gain_near</code></td>
+<td><code>1.8</code></td>
+<td>0-10</td>
+</tr>
+<tr>
+<td><code>stress_gain_low_hp</code></td>
+<td><code>0.9</code></td>
+<td>0-10</td>
+</tr>
+<tr>
+<td><code>stress_gain_dark</code></td>
+<td><code>0.35</code></td>
+<td>0-5</td>
+</tr>
+<tr>
+<td><code>stress_decay</code></td>
+<td><code>0.65</code></td>
+<td>0-5</td>
+</tr>
+<tr>
+<td><code>stress_per_hit</code></td>
+<td><code>8</code></td>
+<td>0-50</td>
+</tr>
+<tr>
+<td><code>stress_per_shot</code></td>
+<td><code>0.7</code></td>
+<td>0-10</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>stress_gain_near</code> adds Stress per second when a living present threat is
+within 12 m. It does not multiply by the number of nearby enemies.</li>
+<li><code>stress_gain_low_hp</code> adds Stress per second below 30% player HP.</li>
+<li><code>stress_gain_dark</code> adds Stress per second when a threat is near and the
+recognized player light is off; it does not measure ambient brightness.</li>
+<li><code>stress_decay</code> recovers Stress per second without a continuing source.</li>
+<li><code>stress_per_hit</code> adds a base increase before the HP-loss fraction term,
+which contributes up to another 15.</li>
+<li><code>stress_per_shot</code> adds Stress per registered physical shot.</li>
+</ul>
+<h2 id="stamina-and-one-life">Stamina and One Life</h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Accepted value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stamina_drain</code></td>
+<td><code>16</code></td>
+<td>1-100</td>
+</tr>
+<tr>
+<td><code>stamina_recovery</code></td>
+<td><code>12</code></td>
+<td>1-100</td>
+</tr>
+<tr>
+<td><code>stamina_recovery_delay</code></td>
+<td><code>2</code></td>
+<td>0-30</td>
+</tr>
+<tr>
+<td><code>stamina_recover_threshold</code></td>
+<td><code>25</code></td>
+<td>1-100</td>
+</tr>
+<tr>
+<td><code>stamina_exhausted_walk</code></td>
+<td><code>0.6</code></td>
+<td>0.1-1</td>
+</tr>
+<tr>
+<td><code>stamina_exhausted_run</code></td>
+<td><code>0.4</code></td>
+<td>0.1-1</td>
+</tr>
+<tr>
+<td><code>one_life</code></td>
+<td><code>false</code></td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td><code>one_life_mode</code></td>
+<td><code>&quot;strict&quot;</code></td>
+<td><code>&quot;strict&quot;</code> or <code>&quot;easy&quot;</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>stamina_drain</code> spends stamina per live sprint second.</li>
+<li><code>stamina_recovery</code> restores stamina per live second at rest. Movement
+restores half that rate.</li>
+<li><code>stamina_recovery_delay</code> delays recovery after the last sprint, in live
+seconds. Holding sprint while exhausted does not prevent recovery.</li>
+<li><code>stamina_recover_threshold</code> releases exhaustion after reaching zero.</li>
+<li><code>stamina_exhausted_walk</code> and <code>stamina_exhausted_run</code> scale walking and
+run-transition locomotion playback. They do not set global time or camera
+input and are not measured native velocity ratios.</li>
+<li><code>one_life</code> opts in; <code>one_life_mode</code> selects the policy when armed. Prefer
+menu actions, which validate changes and persist immediately.</li>
+</ul>
+<p>Stamina capacity is fixed at 100. Empty stamina blocks sprint until the
+recovery threshold. Timers advance only in recognized live gameplay.</p>
+<h3 id="strict-mode-and-trusted-slots">Strict mode and trusted slots</h3>
+<p>Activation/death also live in the ledger. Editing <code>one_life</code> or <code>enabled</code>
+to false does not revive a dead attempt. Disable through the menu while
+alive, or start native New Game after death. Newly arming an existing
+campaign clears trusted slots: make a successful new manual save before
+quitting. Only slots saved in the current attempt are trusted; old and
+unclassified gameplay loads are denied.</p>
+<h3 id="easy-mode">Easy mode</h3>
+<p>Armed legacy ledgers without a mode remain Strict. Editing config alone
+does not convert an armed Strict ledger. Choose <strong>Enable One Life (Easy)</strong>
+in a calm live area to run inventory preflight and select Easy.</p>
+<p>Easy uses fixed <strong>F6/F7</strong> actions, <strong>50%</strong> Continue HP, a <strong>2 m</strong> recovery
+radius and at most <strong>128</strong> outstanding caches. Death revokes earlier resume
+slots; save successfully after Continue before quitting to resume later.
+Pending defeat and outstanding loot prevent menu mode changes. See
+<a href="FEATURES.html#one-life-easy">Easy behavior and limits</a>.</p>
+<h2 id="jams-and-lights">Jams and lights</h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>jam_heat_per_shot</code></td>
+<td><code>0.18</code></td>
+<td>0-1</td>
+</tr>
+<tr>
+<td><code>jam_cool_per_second</code></td>
+<td><code>0.14</code></td>
+<td>0.01-2</td>
+</tr>
+<tr>
+<td><code>jam_min_heat</code></td>
+<td><code>0.4</code></td>
+<td>0-1</td>
+</tr>
+<tr>
+<td><code>jam_max_chance</code></td>
+<td><code>0.16</code></td>
+<td>0-0.75</td>
+</tr>
+<tr>
+<td><code>jam_clear_seconds</code></td>
+<td><code>3</code></td>
+<td>0.5-30</td>
+</tr>
+<tr>
+<td><code>flashlight_seconds</code></td>
+<td><code>180</code></td>
+<td>10-3600</td>
+</tr>
+<tr>
+<td><code>lighter_seconds</code></td>
+<td><code>90</code></td>
+<td>10-3600</td>
+</tr>
+<tr>
+<td><code>light_recharge_per_second</code></td>
+<td><code>0.15</code></td>
+<td>0-1</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>jam_heat_per_shot</code> adds heat per registered shot, capped at 1.</li>
+<li><code>jam_cool_per_second</code> removes heat per live second.</li>
+<li><code>jam_min_heat</code> is the minimum heat for a jam roll.</li>
+<li><code>jam_max_chance</code> is the probability factor at maximum heat and Stress.
+Actual chance is this value times heat times <code>(0.5 + 0.5 * Stress / 100)</code>.</li>
+<li><code>jam_clear_seconds</code> is the base clearing duration before Stress scaling.</li>
+<li><code>flashlight_seconds</code> and <code>lighter_seconds</code> set separate energy capacities.
+The flashlight pool also covers BodyLight.</li>
+<li><code>light_recharge_per_second</code> restores energy-seconds per live second while
+the source is off. Setting it to zero prevents recharge.</li>
+</ul>
+<p>After depletion, each light must recover 15% of its configured capacity to
+unlock. At defaults, this means 27/13.5 energy-seconds, taking 180/90 live
+seconds from empty. A persisted recharge latch preserves that restriction.</p>
+<h2 id="saving-and-ink">Saving and ink</h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>max_manual_saves</code></td>
+<td><code>12</code></td>
+<td>Integer 1-100</td>
+</tr>
+<tr>
+<td><code>save_cooldown_seconds</code></td>
+<td><code>900</code></td>
+<td>0-7200</td>
+</tr>
+<tr>
+<td><code>ink_failure_chance</code></td>
+<td><code>0.25</code></td>
+<td>0-1</td>
+</tr>
+<tr>
+<td><code>ink_keep_chance</code></td>
+<td><code>0.45</code></td>
+<td>0-1</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>max_manual_saves</code> limits successful manual saves per run.</li>
+<li><code>save_cooldown_seconds</code> sets live waiting time after a successful save.</li>
+<li><code>ink_failure_chance</code> rolls once per eligible consumed-ribbon transaction.
+Spoiled ink consumes one ribbon, refuses the write and prevents refund.</li>
+<li><code>ink_keep_chance</code> retains this fraction of recognized world ribbons.</li>
+</ul>
+<p>Spoilage applies only where native saving already needs a ribbon. Repeated
+checks do not reroll a transaction. Quota/cooldown rejection keeps the normal
+refund path; failed writes do not count as successful saves.</p>
+<h2 id="fixed-rules">Fixed rules</h2>
+<p>The following are not separate JSON settings:</p>
+<ul>
+<li>12 m threat radius and Stress 100/90 panic thresholds.</li>
+<li>Approximately 2.5-degree panic deviation.</li>
+<li>Stamina capacity 100 and moving recovery factor 0.5.</li>
+<li>15% light re-enable threshold.</li>
+<li>Built-in finite-ammunition/durability enforcement.</li>
+<li>Gameplay-autosave ban while the mod is enabled.</li>
+</ul>
+<p>General disable stops ordinary gameplay modifiers. Armed One Life death/load
+guards continue to protect the attempt.</p>
+<h2 id="run-ledgers">Run ledgers</h2>
+<p><code>&lt;run_id&gt;.json</code> stores persistent mod state. Native New Game setup resets
+the current ID for a fresh attempt, including trusted resume slots. Use a
+different ID to keep a separate campaign ledger. Ordinary old-slot loads
+retain quota, energy, Stress and stamina history; One Life additionally
+requires a confirmed current-attempt slot. Individual weapon heat/jams are
+session-only.</p>
+<p>Framework callbacks can overwrite edits made while the game is running.
+Keep recovery/cache journals intact when diagnosing errors. Editing or
+deleting ledgers can reset local rules; there is no tamper protection.</p>
+</article>
+    <hr>
+    <p><a href="../index.html">← Back to Project Requiem</a></p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fafafa">
+  <meta name="description" content="Kiểm thử Project Requiem — Project Requiem documentation.">
+  <title>Kiểm thử Project Requiem — Project Requiem</title>
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Đến nội dung</a>
+  <header class="site-header"><div class="nav-shell">
+    <a class="wordmark" href="../../index.html">Project Requiem</a>
+    <nav class="nav-actions" aria-label="Ngôn ngữ tài liệu">
+      <a class="text-link" href="../README.html" lang="en">EN</a>
+      <a class="text-link" href="README.html" lang="vi" aria-current="true">Tiếng Việt</a>
+      <a class="button secondary" href="../../index.html">Trang chủ ↗</a>
+    </nav>
+  </div></header>
+  <main class="documentation" id="main">
+    <p class="eyebrow">PROJECT REQUIEM / TÀI LIỆU</p>
+    <nav aria-label="Điều hướng tài liệu"><p><a href="README.html">Hướng dẫn</a> &nbsp;·&nbsp; <a href="FEATURES.html">Tính năng</a> &nbsp;·&nbsp; <a href="TESTING.html">Kiểm thử</a> &nbsp;·&nbsp; <a href="../CONFIGURATION.html">Cấu hình (EN)</a> &nbsp;·&nbsp; <a href="../TROUBLESHOOTING.html">Khắc phục lỗi (EN)</a> &nbsp;·&nbsp; <a href="../LICENSE.html">Giấy phép</a></p></nav>
+    <article><h1 id="kiểm-thử-project-requiem">Kiểm thử Project Requiem</h1>
+<p>Phiên bản <strong>0.3.0-pre.5</strong>, cập nhật <strong>16/10/2026</strong>. Tài liệu mặc định:
+<a href="../TESTING.html">Testing</a>.</p>
+<p><strong>121 kiểm tra Lua và chín tình huống bộ cài đã qua.</strong> Đây là kiểm thử
+luật, SDK/UI giả lập và file. Chúng không chứng minh toàn bộ animation,
+hướng đạn, hình ảnh, ValueType ABI hoặc giao dịch save của game thật.</p>
+<p>Các bản sửa thể lực, choáng, lệch đạn, hồi đèn và chọn ngôn ngữ chưa được
+xác minh lại trong game. One Life và chu trình Easy cũng chưa có lượt
+xác minh đầy đủ. Release vẫn là <strong>pre-release</strong>.</p>
+<h2 id="phạm-vi-tự-động">Phạm vi tự động</h2>
+<table>
+<thead>
+<tr>
+<th>Nhóm</th>
+<th>Số kiểm tra</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Luật core</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Thể lực và One Life</td>
+<td>11</td>
+</tr>
+<tr>
+<td>Easy và giao dịch đồ</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Runtime/API fixture</td>
+<td>44</td>
+</tr>
+<tr>
+<td>Locale</td>
+<td>4</td>
+</tr>
+<tr>
+<td>UI và chuyển dữ liệu</td>
+<td>11</td>
+</tr>
+<tr>
+<td>Tổng Lua</td>
+<td>121</td>
+</tr>
+<tr>
+<td>Bộ cài</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+<p>Mười file Lua phân phối biên dịch được trên Lua 5.4. Chữ ký hook đối
+chiếu fixture metadata RE9 TDB83; fixture không mô phỏng toàn engine.</p>
+<h3 id="chiến-đấu-stress-và-tài-nguyên">Chiến đấu, Stress và tài nguyên</h3>
+<ul>
+<li>Hệ số sát thương/hồi máu, bonus hữu hạn, vật phẩm khan hiếm và pause.</li>
+<li>Bắn/nhiệt/kẹt, chặn đạn tiếp theo và gỡ kẹt theo input.</li>
+<li>Quái phục kích, mốc hoảng loạn, nhận diện Grace/Leon bằng mã nhân vật.</li>
+<li>Hướng request đạn, góc shell tạm thời, chống áp hai lần và khôi phục.</li>
+<li>Camera có giới hạn, không trôi; khôi phục khi pause/tắt/hồi phục.</li>
+<li>Thể lực, chờ hồi, hồi nửa tốc khi đi, giữ kiệt sức tới ngưỡng.</li>
+<li>Ép lại input sau game update, khôi phục force-walk và tốc độ motion
+không nhân chồng; chuyển giữa đi/chạy và nạp đạn.</li>
+<li>Hai nguồn đèn qua nhiều lần cạn/hồi/bật, đúng ngưỡng 15%, lưu latch,
+chuyển ledger cũ, giữ cường độ, không gửi lệnh tắt ngoài và hiện thông báo.</li>
+<li>Save thủ công/tự động, mực hỏng, quota và callback thành công.</li>
+</ul>
+<p>Field hướng ở parent request chưa được capture là fixture tổng hợp,
+không phải bằng chứng về layout thật. Góc shell/camera được kiểm tra qua
+SDK giả lập, không chứng minh ABI hoặc hình ảnh trong game.</p>
+<h3 id="one-life-và-easy">One Life và Easy</h3>
+<ul>
+<li>Ghi ngay tử vong người chơi hiện tại; khóa qua reset/config/restart.</li>
+<li>Xác nhận slot thủ công thuộc lượt, từ chối slot cũ/chưa biết/chết.</li>
+<li>Cho phép system load và reset lượt bằng New Game thực sự.</li>
+<li>Chặn hồi sinh checkpoint trong RAM qua đường di chuyển/bắn/save đã biết.</li>
+<li>Kiểm tra inventory trước khi bật Easy, chặn chí mạng/force-death.</li>
+<li>Continue cùng phiên, đúng nhân vật/khu vực, không gọi Save/Load.</li>
+<li>Vị trí cache đúng, dữ liệu owned có kiểu, phụ kiện không nhân bản,
+chuyển archive/key item, kiểm tra khoảng cách/sức chứa.</li>
+<li>Giữ đồ mới và đồ dư, rollback khi lỗi, đối soát nhật ký gián đoạn,
+hạn chế đổi chế độ và slot sau tử vong.</li>
+</ul>
+<p>Đồ súng/phụ kiện/đạn/boxed-data trong kiểm thử serializer là đồ thị tổng
+hợp, không phải layout vũ khí native đã capture. Chữ ký hàm sửa inventory
+đối chiếu TDB83; getter đọc archive được kiểm tra bằng reflection runtime.</p>
+<h3 id="ngôn-ngữ-bộ-cài-và-gói-phát-hành">Ngôn ngữ, bộ cài và gói phát hành</h3>
+<ul>
+<li>Tiếng Anh mặc định, chọn tiếng Việt, bộ khóa/format tương ứng và fallback.</li>
+<li>Combo dùng khóa bảng Lua 1/2, mô phỏng fallback về khóa đầu khi sai.</li>
+<li>Đổi hai chiều, lưu ngay, nạp lại tiếng Việt không reset tài nguyên,
+trạng thái chết hay lượt; widget ID và push/pop phông cân bằng.</li>
+<li>Chín tình huống cài mới, hai namespace cũ, giữ cấu hình/ledger/backup,
+cài lại, gỡ an toàn với file chỉnh sửa, từ chối đầu vào hỏng/chưa biết.</li>
+<li>Ký tự/range phông cho UI; ZIP kiểm tra CRC và manifest SHA-256.</li>
+</ul>
+<h2 id="bằng-chứng-từ-game-và-giới-hạn">Bằng chứng từ game và giới hạn</h2>
+<p>Báo cáo cũ ghi đồng hồ gameplay chạy, đường chặn kẹt/tiêu đạn, ép renderer
+đèn, bonus hữu hạn và từ chối autosave, không có lỗi callback đã thu thập.
+Đó là bằng chứng lời gọi/guard, chưa phải xác nhận hình ảnh hoặc luật
+hoạt động đúng trong mọi tình huống.</p>
+<p>Lỗi Stress gần Licker dẫn tới sửa bộ quét context suspend, vị trí và
+nguồn danh sách. Nguyên nhân chính xác trong game chưa được kết luận.
+Getter độ chính xác không được gọi cũng dẫn tới bổ sung đường reticle/
+request tạo đạn.</p>
+<p>Báo cáo pre.3 có sáu lần cạn/hồi thể lực, 2.176 event giảm chuyển động và
+2.371 event chặn sprint, nhưng người dùng vẫn chạy được khi cạn. Báo cáo
+cũng có getter sprint/sick/fear và <code>calcFireDirection</code> bằng không, cùng
+nhiều lần ép tắt renderer. Các bộ đếm cũ không chứng minh gameplay thành
+công. Hook Easy <code>forceDead</code> gắn nhưng chưa có lời gọi/chu trình quan sát.</p>
+<p>Người dùng báo Grace không choáng, đạn không lệch và đèn không bật lại.
+Năng lượng đèn pin trong báo cáo là 16,049, dưới ngưỡng 27; HUD cũ chưa
+giải thích ngưỡng. Pre.4 thay input/motion, camera/projectile và bỏ lệnh
+có thể giữ đèn tắt, đồng thời bổ sung trạng thái chờ hồi trên HUD.</p>
+<p>Pre.5 sửa lỗi EN → VI do combo dùng chỉ số 0 thay vì khóa Lua 1/2. Kiểm
+thử UI đã sửa mô hình combo, thêm lưu ngay và nạp lại lựa chọn.</p>
+<p><strong>Các sửa này chưa được kiểm tra lại trực tiếp.</strong> Chưa xác minh đầy đủ
+Grace/Leon, mọi vũ khí, đèn cạn, checkpoint/chuyển chương, kiểu slot và
+chu trình Easy với đồ thật. Tài liệu không coi hook đã gắn là xác nhận.</p>
+<h2 id="chạy-kiểm-tra-mã-nguồn">Chạy kiểm tra mã nguồn</h2>
+<p>Cần Python có wheel Lupa tương thích. Từ thư mục project:</p>
+<pre><code class="language-powershell">python -m pip install --target .tools/python lupa
+python tools/test.py
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\installer_spec.ps1
+python tools/package.py
+</code></pre>
+<p>Workspace phát triển có <code>.tools/python314/python.exe</code> để chạy Lua checks.
+Runtime portable, dump nghiên cứu và ledger cá nhân không vào ZIP.</p>
+<h2 id="ma-trận-xác-minh-trong-game">Ma trận xác minh trong game</h2>
+<p>Danh sách dưới đây dành cho lần xác minh tương lai khi có điều kiện,
+<strong>không yêu cầu người dùng hiện tại thử thêm</strong>. Dùng bản sao save/slot thử.
+Xuất báo cáo trong UI sau tình huống cần quan sát; <code>status.json</code> cũng tự
+xuất sau 120 frame và mỗi 1.800 frame.</p>
+<h3 id="khởi-động-và-giao-diện">Khởi động và giao diện</h3>
+<table>
+<thead>
+<tr>
+<th>Tình huống</th>
+<th>Kết quả cần quan sát</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Menu/load/quay lại menu</td>
+<td>Không lỗi khởi tạo</td>
+</tr>
+<tr>
+<td>Loading/Esc/cutscene/alt-tab</td>
+<td>Đồng hồ không trừ tài nguyên sai</td>
+</tr>
+<tr>
+<td>EN → VI → EN, reload/restart</td>
+<td>Đổi ngay và giữ lựa chọn, không reset run</td>
+</tr>
+<tr>
+<td>HUD/menu/thông báo tiếng Việt</td>
+<td>Đủ dấu, không ô vuông, chỉ đổi phông mod</td>
+</tr>
+<tr>
+<td>Grace/Leon, FPS/TPS</td>
+<td>Nhận đúng nhân vật, HUD/luật áp dụng đúng</td>
+</tr>
+</tbody>
+</table>
+<h3 id="thể-lực-và-stress">Thể lực và Stress</h3>
+<table>
+<thead>
+<tr>
+<th>Tình huống</th>
+<th>Kết quả cần quan sát</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chạy cạn, tiếp tục giữ sprint</td>
+<td>Mất 16/giây, cạn ép đi bộ/giảm tốc</td>
+</tr>
+<tr>
+<td>Nghỉ hoặc đi sau cạn</td>
+<td>Chờ 2 giây; hồi 12/giây hoặc 6/giây</td>
+</tr>
+<tr>
+<td>Thể lực lên 24 rồi 25</td>
+<td>Còn kiệt sức tại 24, chạy lại tại 25</td>
+</tr>
+<tr>
+<td>Reset/restart khi kiệt sức</td>
+<td>Giữ thể lực, kiệt sức, chờ hồi</td>
+</tr>
+<tr>
+<td>Địa hình/aim/crouch/trúng đòn/ride</td>
+<td>Hành động loại trừ không bị giảm sai</td>
+</tr>
+<tr>
+<td>Licker ngủ/sống trong 12 m</td>
+<td>Stress tăng, scan/marker không đếm trùng</td>
+</tr>
+<tr>
+<td>Xác quái/despawn/ngoài 12 m</td>
+<td>Không cộng Stress từ context đó</td>
+</tr>
+<tr>
+<td>Stress đạt 100, về 99 rồi 90</td>
+<td>Bật hoảng loạn, giữ ở 99, hết tại 90</td>
+</tr>
+<tr>
+<td>Hoảng loạn và ẩn HUD</td>
+<td>Lệch đạn/camera/overlay vẫn có</td>
+</tr>
+<tr>
+<td>Pause/tắt mod/hồi Stress</td>
+<td>Camera khôi phục, không trôi</td>
+</tr>
+<tr>
+<td>Sick-state Grace và Leon</td>
+<td>Ghi riêng kết quả, không suy từ counter</td>
+</tr>
+</tbody>
+</table>
+<h3 id="chiến-đấu-và-inventory">Chiến đấu và inventory</h3>
+<table>
+<thead>
+<tr>
+<th>Tình huống</th>
+<th>Kết quả cần quan sát</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bật bonus đạn/dao/rìu vô hạn</td>
+<td>Đạn và độ bền vẫn tiêu hao</td>
+</tr>
+<tr>
+<td>Bắn nguội rồi nóng</td>
+<td>Nguội không kẹt; nóng có thể kẹt</td>
+</tr>
+<tr>
+<td>Bắn tiếp khi kẹt</td>
+<td>Không tạo đạn/tiêu đạn</td>
+</tr>
+<tr>
+<td>Reload/R khi đầy, đổi súng</td>
+<td>Gỡ theo timer; đổi súng không tự gỡ</td>
+</tr>
+<tr>
+<td>Nhiều súng/upgrade/reload</td>
+<td>Chậm hơn, không nhân chồng mãi</td>
+</tr>
+<tr>
+<td>Hồi máu ở Stress thấp/cao</td>
+<td>Đúng hệ số, không giảm hai lần/max HP</td>
+</tr>
+<tr>
+<td>Load lại cùng khu vực</td>
+<td>Khan hiếm ổn định, key item còn</td>
+</tr>
+<tr>
+<td>Chuyển herb giữa túi/hòm</td>
+<td>Không áp lại khan hiếm</td>
+</tr>
+<tr>
+<td>Balo/hòm/crafting/dialog con</td>
+<td>World chạy ở panel hỗ trợ; Esc vẫn pause</td>
+</tr>
+</tbody>
+</table>
+<h3 id="đèn-và-lưu-tiến-độ">Đèn và lưu tiến độ</h3>
+<table>
+<thead>
+<tr>
+<th>Tình huống</th>
+<th>Kết quả cần quan sát</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cạn cả hai đèn, lặp nhiều chu kỳ</td>
+<td>Tắt nguồn sáng, hồi đúng pool</td>
+</tr>
+<tr>
+<td>Hồi dưới ngưỡng 15%</td>
+<td>Vẫn khóa, HUD hiện ngưỡng rõ</td>
+</tr>
+<tr>
+<td>Đèn pin 27 / lửa 13,5 năng lượng</td>
+<td>Báo sẵn sàng, bật lại bình thường</td>
+</tr>
+<tr>
+<td>Save thủ công thành công</td>
+<td>Quota tăng đúng một lần</td>
+</tr>
+<tr>
+<td>Cooldown/hết quota</td>
+<td>Từ chối, không mất mực do luật hỏng</td>
+</tr>
+<tr>
+<td>Ép tỉ lệ hỏng mực trên config thử</td>
+<td>Mất một ribbon, không ghi/hoàn mực</td>
+</tr>
+<tr>
+<td>Sau save lỗi</td>
+<td>Save cũ còn đọc được, quota không tăng</td>
+</tr>
+<tr>
+<td>Autosave/checkpoint/chuyển chương</td>
+<td>Ghi bị chặn, ghi nhận phản ứng retry</td>
+</tr>
+<tr>
+<td>System/profile save</td>
+<td>Vẫn ghi được, không tiêu quota</td>
+</tr>
+<tr>
+<td>Cùng <code>run_id</code>, load slot cũ</td>
+<td>Không hoàn lại tài nguyên/quota</td>
+</tr>
+</tbody>
+</table>
+<h3 id="one-life-strict">One Life Strict</h3>
+<table>
+<thead>
+<tr>
+<th>Tình huống</th>
+<th>Kết quả cần quan sát</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bật, lưu thủ công, thoát/tải</td>
+<td>Chỉ slot được xác nhận trong lượt</td>
+</tr>
+<tr>
+<td>Chết, Continue/Load/reset/restart</td>
+<td>Lượt vẫn khóa, file save còn nguyên</td>
+</tr>
+<tr>
+<td>Ẩn HUD hoặc tắt mod khi đã chết</td>
+<td>Thông báo/khóa Một mạng còn hiệu lực</td>
+</tr>
+<tr>
+<td>Retry checkpoint trong RAM</td>
+<td>Game over, chặn đường di chuyển/bắn</td>
+</tr>
+<tr>
+<td>Mở rồi hủy New Game</td>
+<td>Không mở khóa</td>
+</tr>
+<tr>
+<td>Thực sự khởi tạo New Game</td>
+<td>Reset lượt; slot cũ chưa được tin cậy</td>
+</tr>
+</tbody>
+</table>
+<h3 id="one-life-easy">One Life Easy</h3>
+<table>
+<thead>
+<tr>
+<th>Tình huống</th>
+<th>Kết quả cần quan sát</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bật với súng/đạn/phụ kiện/key item</td>
+<td>Preflight trước bật, không mất đồ</td>
+</tr>
+<tr>
+<td>Chí mạng/force-death được hỗ trợ</td>
+<td>Gục tùy biến, đúng một cache tại chỗ chết</td>
+</tr>
+<tr>
+<td>F6 / Continue (Easy)</td>
+<td>Điểm yên ổn cùng khu vực, 50% HP</td>
+</tr>
+<tr>
+<td>Sau Continue</td>
+<td>Giữ world/tài nguyên, không Save/Load</td>
+</tr>
+<tr>
+<td>Tới cache, F7 trong 2 m</td>
+<td>Đúng nhân vật/khu vực, metadata giữ đủ</td>
+</tr>
+<tr>
+<td>Túi đầy/đã nhặt đồ mới</td>
+<td>Giữ đồ mới; phần dư còn trong cache</td>
+</tr>
+<tr>
+<td>Chết tiếp/reset script</td>
+<td>Cache cũ giữ, nhật ký đối soát một lần</td>
+</tr>
+<tr>
+<td>Giao dịch lỗi/khôi phục lỗi</td>
+<td>Giữ bản ghi, không tự bỏ đồ mơ hồ</td>
+</tr>
+<tr>
+<td>Xử tử/ngã/cutscene death</td>
+<td>Ghi đường vượt guard, không giả định hỗ trợ</td>
+</tr>
+<tr>
+<td>Thoát sau Continue</td>
+<td>Cần save thủ công mới để có slot tiếp tục</td>
+</tr>
+<tr>
+<td>Đổi/tắt mode khi còn đồ/gục</td>
+<td>Bị từ chối</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cài-đặt-và-gỡ">Cài đặt và gỡ</h3>
+<table>
+<thead>
+<tr>
+<th>Tình huống</th>
+<th>Kết quả cần quan sát</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nâng cấp/cài lại</td>
+<td>Một namespace, giữ thiết lập/tài nguyên</td>
+</tr>
+<tr>
+<td>Gỡ mod</td>
+<td>Giữ file đã sửa, ledger, REFramework và mod khác</td>
+</tr>
+<tr>
+<td>Load bản sao save sau gỡ</td>
+<td>Game gốc đọc được save</td>
+</tr>
+</tbody>
+</table>
+<p>Nếu tình huống không đạt, lưu báo cáo và ghi nhân vật, súng, cảnh và thao
+tác. Không ghi đè save chính để kiểm tra luồng save pre-release.</p>
+</article>
+    <hr>
+    <p><a href="../../index.html">← Về Project Requiem</a></p>
+  </main>
+</body>
+</html>

@@ -1,1 +1,134 @@
-a
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fafafa">
+  <meta name="description" content="Project Requiem. A hardcore survival overhaul for Resident Evil Requiem PC, powered by REFramework. Stress, stamina, finite resources and optional One Life.">
+  <meta property="og:title" content="Project Requiem — Survival. Without a safety net.">
+  <meta property="og:description" content="Every bullet, every sprint, every save. A survival overhaul for Resident Evil Requiem PC.">
+  <meta property="og:type" content="website">
+  <title>Project Requiem — Survival. Without a safety net.</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="./assets/fonts/geist-sans-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./assets/site.css">
+  <script type="module" src="./assets/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="skip_content">Skip to content</a>
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="wordmark" href="#" aria-label="Project Requiem home">
+        <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V4h7.5a5 5 0 0 1 0 10H5m7-1 7 7M8.5 4v16"/></svg>
+        <span>Project Requiem</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#features" data-i18n="nav_features">Features</a>
+        <a href="#modes" data-i18n="nav_modes">Game modes</a>
+        <a href="#install" data-i18n="nav_install">Installation</a>
+        <a href="./docs/README.html" data-doc-link data-i18n="nav_docs">Docs</a>
+      </nav>
+      <div class="nav-actions">
+        <div class="language-switch" role="group" aria-label="Website language">
+          <button class="lang-button selected" type="button" data-lang="en" aria-pressed="true" aria-label="English">EN</button>
+          <button class="lang-button" type="button" data-lang="vi" aria-pressed="false" aria-label="Tiếng Việt">VI</button>
+        </div>
+        <a class="button nav-download" data-download href="./downloads/Project-Requiem-0.3.0-pre.5.zip" download><span data-i18n="nav_download">Download</span><span aria-hidden="true">↗</span></a>
+        <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button>
+      </div>
+    </div>
+    <nav id="mobile-menu" class="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="#features" data-i18n="nav_features">Features</a>
+      <a href="#modes" data-i18n="nav_modes">Game modes</a>
+      <a href="#install" data-i18n="nav_install">Installation</a>
+      <a href="./docs/README.html" data-doc-link data-i18n="nav_docs">Docs</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-mesh" aria-hidden="true"></div>
+      <div class="hero-content container">
+        <div class="hero-eyebrow"><span class="status-dot"></span><span data-i18n="hero_eyebrow">RESIDENT EVIL REQUIEM / PC / REFRAMEWORK</span></div>
+        <h1 id="hero-heading"><span data-i18n="hero_title1">Survival.</span><br><span data-i18n="hero_title2">Without a safety net.</span></h1>
+        <p class="hero-body" data-i18n="hero_body">A hardcore survival overhaul. Less room for mistakes. More meaning in every bullet, every sprint, every save.</p>
+        <div class="hero-actions">
+          <a class="button primary pill" data-download href="./downloads/Project-Requiem-0.3.0-pre.5.zip" download><span data-i18n="hero_download">Download pre-release</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m-4-4 4 4 4-4M4 15v2h12v-2"/></svg></a>
+          <a class="button secondary pill" href="#features"><span data-i18n="hero_explore">Explore the changes</span><span aria-hidden="true">→</span></a>
+        </div>
+        <p class="hero-note"><span class="mono release-version">v0.3.0-pre.5</span><span class="note-divider" aria-hidden="true">/</span><span data-i18n="hero_note">Experimental pre-release. Built for an Insanity run.</span></p>
+
+        <div class="system-preview" aria-label="Interactive preset preview">
+          <div class="preview-toolbar"><div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div><span class="mono">requiem / preset.preview</span><span class="preview-toolbar-label mono" data-i18n="preview_toolbar">0.3 PRE-RELEASE</span></div>
+          <div class="preview-heading"><div><span class="eyebrow" data-i18n="preview_title">THE COST OF PRESSURE</span><p data-i18n="preview_subtitle">Calculated defaults. Not live gameplay telemetry.</p></div><span class="preview-cross" aria-hidden="true">+</span></div>
+          <div class="preview-body">
+            <div class="stress-control">
+              <label for="stress-slider" class="mono" data-i18n="stress_label">STRESS LEVEL</label>
+              <div class="stress-value"><output id="stress-value" for="stress-slider">42</output><span>/ 100</span></div>
+              <input id="stress-slider" type="range" min="0" max="100" step="1" value="42" aria-label="Stress level">
+              <div class="slider-scale mono"><span>0</span><span>50</span><span>100</span></div>
+              <div class="panic-state"><span class="state-light" aria-hidden="true"></span><span id="panic-label" data-i18n="panic_off">PANIC INACTIVE</span></div>
+            </div>
+            <div class="preview-metrics">
+              <div class="metric"><span data-i18n="preview_heal">Healing retained</span><output id="metric-heal">40.3<span>%</span></output><div class="mini-bar"><i id="bar-heal"></i></div></div>
+              <div class="metric"><span data-i18n="preview_damage">Incoming damage</span><output id="metric-damage">1.54<span>×</span></output><div class="mini-bar"><i id="bar-damage"></i></div></div>
+              <div class="metric"><span data-i18n="preview_reload">Reload duration</span><output id="metric-reload">1.66<span>×</span></output><div class="mini-bar"><i id="bar-reload"></i></div></div>
+              <div class="metric"><span data-i18n="preview_jam">Jam chance at max heat</span><output id="metric-jam">11.4<span>%</span></output><div class="mini-bar"><i id="bar-jam"></i></div></div>
+            </div>
+          </div>
+          <div class="preview-footer mono"><span data-i18n="preview_footer">LOCAL PRESET MODEL</span><span>REFramework / TDB83</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="rules-strip container" aria-label="Core restrictions">
+      <div><span class="mono" data-i18n="stat_autosave">GAMEPLAY AUTOSAVE</span><strong data-i18n="stat_autosave_value">Disabled.</strong></div>
+      <div><span class="mono" data-i18n="stat_finite">AMMO & DURABILITY</span><strong data-i18n="stat_finite_value">Always finite.</strong></div>
+      <div><span class="mono" data-i18n="stat_saves">MANUAL SAVE LIMIT</span><strong data-i18n="stat_saves_value">12 per run.</strong></div>
+    </div>
+
+    <section id="features" class="section container" aria-labelledby="features-heading">
+      <div class="section-heading"><div><p class="eyebrow" data-i18n="features_eyebrow">01 / THE OVERHAUL</p><h2 id="features-heading" data-i18n="features_title">Every decision has weight.</h2></div><p class="section-lead" data-i18n="features_body">A familiar game. A different margin for error. Survival systems designed to work together.</p></div>
+      <div class="feature-grid">
+        <article class="feature-card"><div class="feature-art signal-art" aria-hidden="true"><svg viewBox="0 0 300 100"><path class="guide-line" d="M0 50H300"/><path d="M0 50h54l8-13 12 38 12-60 12 53 8-18h32l7-10 9 25 11-48 11 43 8-10h116"/></svg><span class="mono art-caption" data-i18n="art_pressure">THREAT → STRESS → PANIC</span></div><h3 data-i18n="feature1_title">Pressure becomes a mechanic.</h3><p data-i18n="feature1_body"></p><span class="feature-number mono">01</span></article>
+        <article class="feature-card"><div class="feature-art stamina-art" aria-hidden="true"><div class="stamina-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="mono art-caption" data-i18n="art_stamina">100 → 0 / 6.25s</span></div><h3 data-i18n="feature2_title">Every sprint has a limit.</h3><p data-i18n="feature2_body"></p><span class="feature-number mono">02</span></article>
+        <article class="feature-card"><div class="feature-art weapon-art" aria-hidden="true"><div class="shot-sequence"><i></i><i></i><i></i><i></i><i></i><span>×</span></div><span class="mono art-caption" data-i18n="art_heat">FIRE / HEAT / JAM</span></div><h3 data-i18n="feature3_title">Weapons demand restraint.</h3><p data-i18n="feature3_body"></p><span class="feature-number mono">03</span></article>
+        <article class="feature-card"><div class="feature-art supply-art" aria-hidden="true"><div class="supply-count"><svg viewBox="0 0 48 48"><rect x="10" y="13" width="28" height="29" rx="4"/><path d="M18 13V7h12v6M24 21v13m-6.5-6.5h13"/></svg><span>40<span>%</span></span><i></i></div><span class="mono art-caption" data-i18n="art_healing">HEALING PICKUPS RETAINED</span></div><h3 data-i18n="feature4_title">Supplies lose their safety net.</h3><p data-i18n="feature4_body"></p><span class="feature-number mono">04</span></article>
+        <article class="feature-card"><div class="feature-art light-art" aria-hidden="true"><div class="battery"><i></i><i></i><i></i><i></i><span></span></div><span class="mono art-caption" data-i18n="art_light">180s FLASHLIGHT / 90s LIGHTER</span></div><h3 data-i18n="feature5_title">Darkness has a timer.</h3><p data-i18n="feature5_body"></p><span class="feature-number mono">05</span></article>
+        <article class="feature-card"><div class="feature-art save-art" aria-hidden="true"><div class="save-slots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="mono art-caption" data-i18n="art_save">12 SAVES / 25% SPOILED INK</span></div><h3 data-i18n="feature6_title">Saving becomes a decision.</h3><p data-i18n="feature6_body"></p><span class="feature-number mono">06</span></article>
+      </div>
+    </section>
+
+    <section id="modes" class="section modes-section" aria-labelledby="modes-heading">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="modes_eyebrow">02 / YOUR RUN, YOUR RULES</p><h2 id="modes-heading" data-i18n="modes_title">What does one life mean?</h2></div><p class="section-lead" data-i18n="modes_body">Keep the survival overhaul. Choose how much a death should cost.</p></div>
+        <div class="mode-browser">
+          <div class="mode-navigation" role="tablist" aria-label="Compare game modes">
+            <button id="tab-standard" class="mode-tab selected" role="tab" type="button" data-mode="standard" aria-selected="true" aria-controls="mode-panel"><span class="mode-tab-number mono">00</span><span data-i18n="mode_standard">One Life off</span><span class="mode-tab-arrow" aria-hidden="true">↗</span></button>
+            <button id="tab-strict" class="mode-tab" role="tab" type="button" data-mode="strict" aria-selected="false" aria-controls="mode-panel" tabindex="-1"><span class="mode-tab-number mono">01</span><span data-i18n="mode_strict">One Life · Strict</span><span class="mode-tab-arrow" aria-hidden="true">↗</span></button>
+            <button id="tab-easy" class="mode-tab" role="tab" type="button" data-mode="easy" aria-selected="false" aria-controls="mode-panel" tabindex="-1"><span class="mode-tab-number mono">02</span><span data-i18n="mode_easy">One Life · Easy</span><span class="mode-tab-arrow" aria-hidden="true">↗</span></button>
+            <p class="mode-comparison-note" data-i18n="mode_compare_note">Compare modes here. Enable them in the in-game mod menu.</p>
+          </div>
+          <div id="mode-panel" class="mode-detail" role="tabpanel" tabindex="0" aria-labelledby="tab-standard"><div class="mode-tag mono" id="mode-tag"></div><h3 id="mode-title"></h3><p id="mode-body"></p><dl id="mode-rules"></dl><p class="mode-note" id="mode-note"></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="install" class="section container" aria-labelledby="install-heading">
+      <div class="install-grid">
+        <div class="install-copy"><p class="eyebrow" data-i18n="install_eyebrow">03 / GET STARTED</p><h2 id="install-heading" data-i18n="install_title">A new kind of familiar.</h2><p class="section-lead" data-i18n="install_body">A small Lua mod. No executable patches. Install beside your game and begin again.</p><ol class="install-steps"><li><span class="step-number mono">01</span><div><h3 data-i18n="step1_title">Install REFramework.</h3><p data-i18n="step1_body"></p><a href="https://github.com/praydog/REFramework-nightly/releases" class="text-link" target="_blank" rel="noopener noreferrer">REFramework ↗</a></div></li><li><span class="step-number mono">02</span><div><h3 data-i18n="step2_title">Extract. Run. Restart.</h3><p data-i18n="step2_body"></p></div></li><li><span class="step-number mono">03</span><div><h3 data-i18n="step3_title">Make the run your own.</h3><p data-i18n="step3_body"></p></div></li></ol></div>
+        <div class="install-side"><div class="terminal"><div class="terminal-toolbar"><span class="mono" data-i18n="terminal_title">POWERSHELL / INSTALL</span><button class="copy-button" type="button" id="copy-command"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M12 7V3H3v9h4"/></svg><span data-i18n="copy_command">Copy</span></button></div><pre><code id="install-command"></code></pre><div class="terminal-footer mono">PROJECT REQUIEM / 0.3.0-pre.5</div></div><div class="download-meta"><span data-i18n="download_size">ZIP · 387 KB · PC</span><button type="button" class="text-link" id="show-checksum" data-i18n="view_checksum">Verify SHA-256 ↗</button></div><aside class="release-note"><span class="release-label mono" data-i18n="release_status">PRE-RELEASE STATUS</span><h3 data-i18n="release_title">Built carefully. Still experimental.</h3><p data-i18n="release_body"></p><a data-doc-testing href="./docs/TESTING.html" class="text-link" data-i18n="release_checks">121 Lua checks. 9 installer scenarios. View evidence ↗</a></aside></div>
+      </div>
+    </section>
+
+    <section id="faq" class="section faq-section container" aria-labelledby="faq-heading"><div class="faq-heading"><p class="eyebrow" data-i18n="faq_eyebrow">BEFORE YOUR NEXT RUN</p><h2 id="faq-heading" data-i18n="faq_title">A few things to know.</h2></div><div id="faq-list" class="faq-list"></div></section>
+
+    <section class="final-cta container"><div class="cta-cross" aria-hidden="true">+</div><p class="eyebrow mono">PROJECT REQUIEM / 0.3</p><h2 data-i18n="cta_title">Make every bullet matter.</h2><p data-i18n="cta_body">The next run is yours. The safety net is gone.</p><a class="button primary pill" data-download href="./downloads/Project-Requiem-0.3.0-pre.5.zip" download><span data-i18n="hero_download">Download pre-release</span><span aria-hidden="true">↗</span></a></section>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-top"><div><a class="wordmark" href="#"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V4h7.5a5 5 0 0 1 0 10H5m7-1 7 7M8.5 4v16"/></svg><span>Project Requiem</span></a><p data-i18n="footer_tagline">Survival, reconsidered.</p></div><div class="footer-links"><a href="./docs/README.html" data-doc-link data-i18n="nav_docs">Docs</a><a href="./docs/LICENSE.html" data-i18n="footer_license">Licenses</a><a href="https://github.com/praydog/REFramework" target="_blank" rel="noopener noreferrer" data-i18n="footer_framework">REFramework ↗</a><a href="#" data-i18n="footer_back">Back to top ↑</a></div></div><div class="container footer-bottom"><span class="mono">© 2026 PROJECT REQUIEM CONTRIBUTORS</span><span data-i18n="footer_unofficial">Unofficial mod. Not affiliated with Capcom.</span><span class="mono">EN / VI</span></div></footer>
+
+  <dialog id="checksum-dialog" aria-labelledby="checksum-heading"><div class="dialog-heading"><h2 id="checksum-heading" data-i18n="checksum_title">Verify your download.</h2><button type="button" id="close-checksum" class="dialog-close" aria-label="Close">×</button></div><p data-i18n="checksum_body">Compare this SHA-256 with the ZIP you downloaded.</p><p class="checksum-filename mono">Project-Requiem-0.3.0-pre.5.zip</p><code id="checksum-value"></code><div class="dialog-actions"><button type="button" id="copy-checksum" class="button primary" data-i18n="copy_checksum">Copy checksum</button><a href="./downloads/Project-Requiem-0.3.0-pre.5.zip.sha256" class="button secondary" download id="download-checksum-link">Download .sha256</a></div></dialog>
+  <p id="live-message" class="sr-only" role="status" aria-live="polite"></p>
+</body>
+</html>
